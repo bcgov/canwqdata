@@ -1,0 +1,9 @@
+inst/doc
+.Rproj.user
+.Rhistory
+.RData
+out/
+internal.R
+*.DS_Store
+
+
