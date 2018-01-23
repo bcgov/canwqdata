@@ -14,7 +14,7 @@ get_wq_sites <- function() {
   ret <- get_metadata_file("Water-Qual-Eau-Sites-National")
   # Get rid of weird encoding artifacts
   ret <- dplyr::mutate_if(ret, is.character, 
-                          function(x) gsub("\u0096", "", x))
+                          function(x) gsub("\u0096", "-", x))
   ret
 }
 
