@@ -17,5 +17,7 @@ a character vector of basin names
 Get a list of basins for a Province or Territory.
 }
 \examples{
-pt_basins(c("BC", "AB"))
+\dontrun{
+  pt_basins(c("BC", "AB"))
+}
 }
