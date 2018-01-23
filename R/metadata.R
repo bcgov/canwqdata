@@ -67,11 +67,10 @@ dl_basin_ <- function(basin) {
   resources <- get_resources_df(folder = url)
   resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
   full_url <- safe_make_url(base_url(), url, resource$path)
-  temp <- tempfile(fileext = resource$format)
-  on.exit(file.remove(temp))
-  res <- httr::GET(full_url, httr::write_disk(temp))
+  res <- httr::GET(full_url, httr::progress("down"))
   httr::stop_for_status(res)
-  parse_ec(temp, resource$format)
+  parse_ec(httr::content(res, as = "raw", type = resource$format), 
+           resource$format)
 }
 
 #' Download water quality data for a basin
