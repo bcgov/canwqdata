@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # canwqdata
 
-An R 📦 to download open water quality data from Environment and Climate Change Canada's [National Long-term Water Quality Monitoring Data](http://donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/).
+An R `r emo::ji("package")` to download open water quality data from Environment and Climate Change Canada's [National Long-term Water Quality Monitoring Data](http://donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/).
 
 ### Features
 
