@@ -83,3 +83,11 @@ dl_basin_ <- function(basin) {
 #' @return a data.frame of all the water quality monitoring data from that basin.
 #' @export
 dl_basin <- memoise::memoise(dl_basin_)
+
+dl_site <- function(site) {
+  sites_df <- wq_sites()
+  if (!site %in% sites_df$SITE_NO) stop("Not a valid site ID. See wq_sites()")
+  basin <- unique(sites_df$PEARSEDA[sites_df$SITE_NO %in% site])
+  basin_data <- dl_basin(basin)
+  basin_data[basin_data$SITE_NO %in% site, , drop = FALSE]
+}
