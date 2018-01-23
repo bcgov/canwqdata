@@ -72,6 +72,9 @@ basin_url <- function(basin) {
   
   basin_clean <- clean_names(basin)
   url_folder <- basin_links[["Name"]][grepl(basin_clean, basin_links[["short_name"]])]
+  if (!length(url_folder)) 
+    stop("Unable to find download folder for ", basin, " basin")
+  
   url_folder
 }
 
