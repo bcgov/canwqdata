@@ -52,10 +52,34 @@ wq_param_desc <- memoise::memoise(wq_param_desc_)
 #' @export
 #'
 #' @examples
-#' pt_basins(c("BC", "AB"))
+#' \dontrun{
+#'   pt_basins(c("BC", "AB"))
+#' }
 pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
                                           "QC", "SK", "US", "YT")) {
   prov_terr <- match.arg(prov_terr, several.ok = TRUE)
   sites_df <- wq_sites()
   unique(sites_df$PEARSEDA[sites_df$PROV_TERR %in% prov_terr])
 }
+
+dl_basin_ <- function(basin) {
+  url <- basin_url(basin)
+  resources <- get_resources_df(folder = url)
+  resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
+  full_url <- safe_make_url(base_url(), url, resource$path)
+  temp <- tempfile(fileext = resource$format)
+  on.exit(file.remove(temp))
+  res <- httr::GET(full_url, httr::write_disk(temp))
+  httr::stop_for_status(res)
+  parse_ec(temp, resource$format)
+}
+
+#' Download water quality data for a basin
+#'
+#' @param basin the name of a basin. 
+#' An easy way to get a list of basins is to use the \code{\link{pt_basins}}
+#' function
+#'
+#' @return a data.frame of all the water quality monitoring data from that basin.
+#' @export
+dl_basin <- memoise::memoise(dl_basin_)
