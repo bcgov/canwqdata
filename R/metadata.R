@@ -18,28 +18,46 @@ wq_sites_ <- function() {
   ret
 }
 
+#' Get a table of water quality monitoring sites
+#'
+#' @return a data.frame of monitoring sites
+#' @export
 wq_sites <- memoise::memoise(wq_sites_)
 
-get_wq_params <- function() {
+wq_params_ <- function() {
   get_metadata_file("Water-Qual-Eau-VariableInfo")
 }
 
-get_wq_param_desc <- function() {
+#' Get a table of water quality parameters
+#'
+#' @return a data.frame of parameters
+#' @export
+wq_params <- memoise::memoise(wq_params_)
+
+wq_param_desc_ <- function() {
   get_metadata_file("Water-Qual-Eau-TableDescriptions")
 }
 
-get_basins <- function(site_nums) {
-  sites <- wq_sites()
-  basins <- unique(sites$PEARSEDA[sites$SITE_NO %in% site_nums])
-  basins
-}
+#' Get a table of water quality parameter descriptions
+#'
+#' @return a data.frame of parameter descriptions
+#' @export
+wq_param_desc <- memoise::memoise(wq_param_desc_)
 
+#' Get a list of basins for a Province or Territory.
+#'
+#' @param prov_terr one or more Province/Territory abbreviations
+#'
+#' @return a character vector of basin names
+#' @export
+#'
+#' @examples
+#' pt_basins(c("BC", "AB"))
 pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
                                           "QC", "SK", "US", "YT")) {
   prov_terr <- match.arg(prov_terr, several.ok = TRUE)
-  sites <- wq_sites()
-  sites <- sites$SITE_NO[sites$PROV_TERR %in% prov_terr]
-  get_basins(sites)
+  sites_df <- wq_sites()
+  unique(sites_df$PEARSEDA[sites_df$PROV_TERR %in% prov_terr])
 }
 
 # get_basin_dl_link <- function(basins
