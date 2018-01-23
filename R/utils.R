@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 safe_make_url <- function(...) {
-  parts <- list(...)
+  parts <- compact(list(...))
   parts <- gsub("^/+|/+$", "", parts)
   paste(parts, collapse = "/")
 }
@@ -20,15 +20,15 @@ base_url <- function() {
   "http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data"
 }
 
-get_metadata_json <- function() {
-  url <- safe_make_url(base_url(), "datapackage.json")
+get_metadata_json <- function(folder = NULL) {
+  url <- safe_make_url(base_url(), folder, "datapackage.json")
   res <- httr::GET(url)
   httr::stop_for_status(res)
   httr::content(res, as = "parsed", type = "application/json")
 }
 
-get_resources_df <- function() {
-  resources <- get_metadata_json()[["resources"]]
+get_resources_df <- function(folder = NULL) {
+  resources <- get_metadata_json(folder)[["resources"]]
   dplyr::bind_rows(resources)
 }
 
@@ -41,7 +41,6 @@ get_metadata_file <- function(name) {
     stop("More than one resource found matching that name", call. = FALSE)
   
   url <- safe_make_url(base_url(), resource$path)
-  x <- tempfile()
   res <- httr::GET(url)
   httr::stop_for_status(res)
   parse_ec(httr::content(res, as = "raw", type = resource$format), 
@@ -77,3 +76,5 @@ basin_url <- function(basin) {
 }
 
 clean_names <- function(x) tolower(gsub("[^a-zA-Z]", "", x))
+
+compact <- function(x) Filter(Negate(is.null), x)
