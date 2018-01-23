@@ -42,10 +42,10 @@ get_metadata_file <- function(name) {
   
   url <- safe_make_url(base_url(), resource$path)
   x <- tempfile()
-  res <- httr::GET(url, httr::write_disk(x))
+  res <- httr::GET(url)
   httr::stop_for_status(res)
-  # cont <- httr::content(res, as = "raw", type = resource$mediatype)
-  parse_ec(x, resource$format)
+  parse_ec(httr::content(res, as = "raw", type = resource$format), 
+           resource$format)
 }
 
 parse_ec <- function(x, mime_type) {
