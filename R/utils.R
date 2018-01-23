@@ -53,11 +53,10 @@ parse_ec <- function(x, mime_type) {
          csv = readr::read_csv(x, locale = readr::locale(encoding = "latin1")))
 }
 
-basin_folders <- function() {
+basin_folders_ <- function() {
   ec_site <- xml2::read_html("http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/?lang=en")
-  link_tbl <- ec_site %>% 
-    rvest::html_node("#indexlist") %>% 
-    rvest::html_table()
+  link_tbl <- rvest::html_node(ec_site, "#indexlist")
+  link_tbl <- rvest::html_table(link_tbl)
   
   link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
                        c("Name", "Last modified")]
@@ -65,3 +64,5 @@ basin_folders <- function() {
                               "", link_tbl$Name)
   link_tbl
 }
+
+basin_folders <- memoise::memoise(basin_folders_)
