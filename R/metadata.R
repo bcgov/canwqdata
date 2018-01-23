@@ -59,5 +59,3 @@ pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "N
   sites_df <- wq_sites()
   unique(sites_df$PEARSEDA[sites_df$PROV_TERR %in% prov_terr])
 }
-
-# get_basin_dl_link <- function(basins

@@ -60,9 +60,20 @@ basin_folders_ <- function() {
   
   link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
                        c("Name", "Last modified")]
-  link_tbl$short_name <- gsub("(-river)?(-basin)?-long-term-water-quality-monitoring-data", 
+  link_tbl$short_name <- gsub("-long-term-water-quality-monitoring-data", 
                               "", link_tbl$Name)
   link_tbl
 }
 
 basin_folders <- memoise::memoise(basin_folders_)
+
+basin_url <- function(basin) {
+  basin_links <- basin_folders()
+  basin_links[["short_name"]] <- clean_names(basin_links[["short_name"]])
+  
+  basin_clean <- clean_names(basin)
+  url_folder <- basin_links[["Name"]][grepl(basin_clean, basin_links[["short_name"]])]
+  url_folder
+}
+
+clean_names <- function(x) tolower(gsub("[^a-zA-Z]", "", x))
