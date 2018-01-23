@@ -10,13 +10,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-get_wq_sites <- function() {
+wq_sites_ <- function() {
   ret <- get_metadata_file("Water-Qual-Eau-Sites-National")
   # Get rid of weird encoding artifacts
   ret <- dplyr::mutate_if(ret, is.character, 
                           function(x) gsub("\u0096", "-", x))
   ret
 }
+
+wq_sites <- memoise::memoise(wq_sites_)
 
 get_wq_params <- function() {
   get_metadata_file("Water-Qual-Eau-VariableInfo")
