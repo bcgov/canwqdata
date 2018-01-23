@@ -28,9 +28,18 @@ get_wq_param_desc <- function() {
   get_metadata_file("Water-Qual-Eau-TableDescriptions")
 }
 
-get_basin <- function(site_no) {
-  sites <- get_wq_sites()
-  basin <- sites$PEARSEDA[sites$SITE_NO == site_no][1]
-  basin
-  
+get_basins <- function(site_nums) {
+  sites <- wq_sites()
+  basins <- unique(sites$PEARSEDA[sites$SITE_NO %in% site_nums])
+  basins
 }
+
+pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
+                                          "QC", "SK", "US", "YT")) {
+  prov_terr <- match.arg(prov_terr, several.ok = TRUE)
+  sites <- wq_sites()
+  sites <- sites$SITE_NO[sites$PROV_TERR %in% prov_terr]
+  get_basins(sites)
+}
+
+# get_basin_dl_link <- function(basins
