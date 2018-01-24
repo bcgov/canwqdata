@@ -85,7 +85,7 @@ dl_basin_ <- function(basin) {
                     VARIABLE_FR = readr::col_character(),
                     STATUS_STATUT = readr::col_character()
                   ))
-  names(ret)[names(ret) == "UNIT_UNITÉ"] <- "UNIT_UNITE"
+  names(ret)[grepl("^UNIT_", names(ret))] <- "UNIT_UNITE"
   ret
 }
 
