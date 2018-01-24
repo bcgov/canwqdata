@@ -49,7 +49,9 @@ get_metadata_file <- function(name) {
 
 parse_ec <- function(x, mime_type) {
   switch(mime_type, 
-         csv = readr::read_csv(x, locale = readr::locale(encoding = "latin1")))
+         csv = suppressMessages(
+           readr::read_csv(x, locale = readr::locale(encoding = "latin1")))
+           )
 }
 
 basin_folders_ <- function() {
