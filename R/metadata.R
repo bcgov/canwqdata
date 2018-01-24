@@ -83,6 +83,17 @@ dl_basin_ <- function(basin) {
 #' @export
 dl_basin <- memoise::memoise(dl_basin_)
 
+#' Download water quality data for a site
+#'
+#' @param site site number. See \code{\link{wq_sites}}.
+#'
+#' @return a data.frame of water quality data for the site. See \code{\link{wq_param_desc}}
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' dl_site("YT09FC0002")
+#' }
 dl_site <- function(site) {
   sites_df <- wq_sites()
   if (!site %in% sites_df$SITE_NO) stop("Not a valid site ID. See wq_sites()")
