@@ -71,7 +71,7 @@ basin_url <- function(basin) {
   basin_links_match <- clean_names(basin_links[["Name"]])
   
   basin_clean <- clean_names(basin)
-  url_folder <- basin_links[["Name"]][basin_clean %in% basin_links_match]
+  url_folder <- basin_links[["Name"]][basin_clean == basin_links_match]
   if (!length(url_folder)) 
     stop("Unable to find data for ", basin, " basin")
   
