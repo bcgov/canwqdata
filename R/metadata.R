@@ -69,7 +69,7 @@ dl_basin_ <- function(basin) {
   full_url <- safe_make_url(base_url(), url, resource$path)
   res <- httr::GET(full_url, httr::progress("down"))
   httr::stop_for_status(res)
-  readr::read_csv(httr::content(res, as = "raw", type = resource$format), 
+  ret <- readr::read_csv(httr::content(res, as = "raw", type = resource$format), 
                   locale = readr::locale(encoding = "latin1"), 
                   col_types = readr::cols(
                     SITE_NO = readr::col_character(),
@@ -80,10 +80,13 @@ dl_basin_ <- function(basin) {
                     MDL_LDM = readr::col_double(),
                     VMV_CODE = readr::col_integer(),
                     UNIT_UNITE = readr::col_character(),
+                    UNIT_UNITÉ = readr::col_character(),
                     VARIABLE = readr::col_character(),
                     VARIABLE_FR = readr::col_character(),
                     STATUS_STATUT = readr::col_character()
                   ))
+  names(ret)[names(ret) == "UNIT_UNITÉ"] <- "UNIT_UNITE"
+  ret
 }
 
 #' Download water quality data for a basin
