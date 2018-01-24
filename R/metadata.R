@@ -56,7 +56,7 @@ wq_param_desc <- memoise::memoise(wq_param_desc_)
 #'   pt_basins(c("BC", "AB"))
 #' }
 pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
-                                          "QC", "SK", "US", "YT")) {
+                                    "QC", "SK", "US", "YT")) {
   prov_terr <- match.arg(prov_terr, several.ok = TRUE)
   sites_df <- wq_sites()
   unique(sites_df$PEARSEDA[sites_df$PROV_TERR %in% prov_terr])
@@ -69,8 +69,21 @@ dl_basin_ <- function(basin) {
   full_url <- safe_make_url(base_url(), url, resource$path)
   res <- httr::GET(full_url, httr::progress("down"))
   httr::stop_for_status(res)
-  parse_ec(httr::content(res, as = "raw", type = resource$format), 
-           resource$format)
+  readr::read_csv(httr::content(res, as = "raw", type = resource$format), 
+                  locale = readr::locale(encoding = "latin1"), 
+                  col_types = readr::cols(
+                    SITE_NO = readr::col_character(),
+                    DATE_TIME_HEURE = readr::col_datetime(format = "%Y-%m-%d %H:%M"),
+                    FLAG_MARQUEUR = readr::col_character(),
+                    VALUE_VALEUR = readr::col_double(),
+                    SDL_LDE = readr::col_double(),
+                    MDL_LDM = readr::col_double(),
+                    VMV_CODE = readr::col_integer(),
+                    UNIT_UNITE = readr::col_character(),
+                    VARIABLE = readr::col_character(),
+                    VARIABLE_FR = readr::col_character(),
+                    STATUS_STATUT = readr::col_character()
+                  ))
 }
 
 #' Download water quality data for a basin
