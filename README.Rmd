@@ -23,6 +23,10 @@ An R `r emo::ji("package")` to download open water quality data from Environment
 
 ### Installation
 
+```r
+remotes::install_github("bcgov/canwqdata")
+```
+
 ### Usage
 
 #### Example

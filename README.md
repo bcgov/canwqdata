@@ -9,6 +9,10 @@ An R 📦 to download open water quality data from Environment and Climate Chang
 
 ### Installation
 
+``` r
+remotes::install_github("bcgov/canwqdata")
+```
+
 ### Usage
 
 #### Example
