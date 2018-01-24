@@ -59,8 +59,6 @@ basin_folders_ <- function() {
   
   link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
                        c("Name", "Last modified")]
-  link_tbl$short_name <- gsub("-long-term-water-quality-monitoring-data", 
-                              "", link_tbl$Name)
   link_tbl
 }
 
@@ -68,16 +66,22 @@ basin_folders <- memoise::memoise(basin_folders_)
 
 basin_url <- function(basin) {
   basin_links <- basin_folders()
-  basin_links[["short_name"]] <- clean_names(basin_links[["short_name"]])
+  basin_links_match <- clean_names(basin_links[["Name"]])
   
   basin_clean <- clean_names(basin)
-  url_folder <- basin_links[["Name"]][grepl(basin_clean, basin_links[["short_name"]])]
+  url_folder <- basin_links[["Name"]][basin_clean %in% basin_links_match]
   if (!length(url_folder)) 
-    stop("Unable to find download folder for ", basin, " basin")
+    stop("Unable to find data for ", basin, " basin")
   
   url_folder
 }
 
-clean_names <- function(x) tolower(gsub("[^a-zA-Z]", "", x))
+clean_names <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z]+", "-", x)
+  x <- gsub("(-and-)?(river)?(basin)?(long-term.+data)?(canada-s-north)?(lower-mainland)?(island)?", "", x)
+  x <- gsub("-+", "", x)
+  x
+}
 
 compact <- function(x) Filter(Negate(is.null), x)
