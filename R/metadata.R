@@ -67,9 +67,16 @@ dl_basin_ <- function(basin) {
   resources <- get_resources_df(folder = url)
   resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
   full_url <- safe_make_url(base_url(), url, resource$path)
-  res <- httr::GET(full_url, httr::progress("down"))
+  tmp <- tempfile()
+  res <- httr::GET(full_url, httr::write_disk(tmp), httr::progress("down"))
+  on.exit(file.remove(tmp))
   httr::stop_for_status(res)
-  ret <- readr::read_csv(httr::content(res, as = "raw", type = resource$format), 
+  # content <- httr::content(res, as = "raw", type = resource$format)
+  nms <- names(suppressMessages(
+    readr::read_csv(tmp, n_max = 1, locale = readr::locale(encoding = "latin1"))
+  ))
+  nms[grepl("^UNIT_", nms)] <- "UNIT_UNITE"
+  ret <- readr::read_csv(tmp, 
                   locale = readr::locale(encoding = "latin1"), 
                   col_types = readr::cols(
                     SITE_NO = readr::col_character(),
@@ -80,12 +87,12 @@ dl_basin_ <- function(basin) {
                     MDL_LDM = readr::col_double(),
                     VMV_CODE = readr::col_integer(),
                     UNIT_UNITE = readr::col_character(),
-                    UNIT_UNITÉ = readr::col_character(),
                     VARIABLE = readr::col_character(),
                     VARIABLE_FR = readr::col_character(),
                     STATUS_STATUT = readr::col_character()
-                  ))
-  names(ret)[grepl("^UNIT_", names(ret))] <- "UNIT_UNITE"
+                  ), 
+                  col_names = nms, 
+                  skip = 1L)
   ret
 }
 
