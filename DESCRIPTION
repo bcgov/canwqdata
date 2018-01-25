@@ -17,7 +17,8 @@ Imports:
     rvest(>= 0.3),
     dplyr (>= 0.7),
     memoise (>= 1.1)
-Suggests: 
+Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
