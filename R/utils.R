@@ -87,3 +87,28 @@ clean_names <- function(x) {
 }
 
 compact <- function(x) Filter(Negate(is.null), x)
+
+read_canwq_csv <- function(x) {
+  nms <- names(suppressMessages(
+    readr::read_csv(x, n_max = 1, locale = readr::locale(encoding = "latin1"))
+  ))
+  nms[grepl("^UNIT_", nms)] <- "UNIT_UNITE"
+  ret <- readr::read_csv(x, 
+                         locale = readr::locale(encoding = "latin1"), 
+                         col_types = readr::cols(
+                           SITE_NO = readr::col_character(),
+                           DATE_TIME_HEURE = readr::col_datetime(format = "%Y-%m-%d %H:%M"),
+                           FLAG_MARQUEUR = readr::col_character(),
+                           VALUE_VALEUR = readr::col_double(),
+                           SDL_LDE = readr::col_double(),
+                           MDL_LDM = readr::col_double(),
+                           VMV_CODE = readr::col_integer(),
+                           UNIT_UNITE = readr::col_character(),
+                           VARIABLE = readr::col_character(),
+                           VARIABLE_FR = readr::col_character(),
+                           STATUS_STATUT = readr::col_character()
+                         ), 
+                         col_names = nms, 
+                         skip = 1L)
+  ret
+}
