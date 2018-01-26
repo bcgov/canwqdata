@@ -52,7 +52,8 @@ get_resources_df <- function(folder = NULL) {
 
 #' Get a 
 #'
-#' @param name 
+#' @param name name of the file in the datapackage json
+#' @noRd
 #'
 #' @return a data frame of metadata
 get_metadata_file <- function(name) {
@@ -95,7 +96,7 @@ basin_folders_ <- function() {
   
   link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
                        c("Name", "Last modified")]
-  setNames(link_tbl, tolower(names(link_tbl)))
+  stats::setNames(link_tbl, tolower(names(link_tbl)))
 }
 
 basin_folders <- memoise::memoise(basin_folders_)

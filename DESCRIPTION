@@ -16,7 +16,8 @@ Imports:
     readr (>= 1.1),
     rvest(>= 0.3),
     dplyr (>= 0.7),
-    memoise (>= 1.1)
+    memoise (>= 1.1),
+    stats
 Suggests:
     knitr,
     rmarkdown,
