@@ -21,4 +21,3 @@ test_that("read_canwq_csv works with raw vectors", {
   expect_identical(no_accent, read_canwq_csv(testdata_raw))
   expect_identical(accent, read_canwq_csv(testdata_raw_accent))
 })
-
