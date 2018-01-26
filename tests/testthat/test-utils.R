@@ -12,15 +12,18 @@ test_that("clean_names works", {
 })
 
 test_that("base_url works and is alive", {
+  skip_on_cran()
   expect_true(identical(status_code(GET(base_url())), 200L))
 })
 
 test_that("basin_folders works", {
-  out <- basin_folders_()
+  skip_on_cran()
+  out <- basin_folders()
   expect_identical(names(out), c("name", "last modified"))
 })
 
 test_that("basin_url works", {
+  skip_on_cran()
   fraser <- basin_url("fraser")
   expect_is(fraser, "character")
   expect_length(fraser, 1)
