@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 ```{r, echo = FALSE}
@@ -21,6 +19,8 @@ An R `r emo::ji("package")` to download open water quality data from Environment
 
 ### Features
 
+This package is designed to get Canaddian Water Quality Monitoring data into R quickly and easily. You can get data from a single monitoring station, multiple stations, or from an entire basin.
+
 ### Installation
 
 ```r
@@ -29,7 +29,68 @@ remotes::install_github("bcgov/canwqdata")
 
 ### Usage
 
-#### Example
+First load the package:
+
+```{r}
+library(canwqdata)
+```
+
+
+The first thing you will probably want to do is get a list of the available sites and associated metadata:
+
+```{r}
+sites <- wq_sites()
+
+sites
+```
+ 
+Then get some data from a particular station:
+
+`AL07AA0015` is a site in Alberta called `r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`
+
+```{r message=FALSE}
+athabasca_falls <- dl_sites("AL07AA0015")
+
+athabasca_falls
+```
+
+We can also get data from more than one station:
+
+```{r message=FALSE}
+dl_sites(c("YT09FC0002", "00BR01AG0008"))
+```
+
+Or an entire basin: 
+
+```{r message=FALSE}
+fraser <- dl_basin("FRASER")
+```
+
+Lets do some quick summary stats of the fraser dataset:
+
+```{r message=FALSE}
+library(dplyr)
+
+fraser %>% 
+  group_by(SITE_NO) %>% 
+  summarise(first_date = min(DATE_TIME_HEURE), 
+            latest_date = max(DATE_TIME_HEURE), 
+            n_params = length(unique(VARIABLE)), 
+            total_samples = n())
+```
+
+It's also possible to download data from an entire province:
+
+```{r}
+bc_sites <- sites %>% 
+  filter(PROV_TERR == "BC") %>% 
+  pull(SITE_NO)
+
+all_bc_data <- dl_sites(bc_sites)
+
+glimpse(all_bc_data)
+```
+
 
 ### Project Status
 
