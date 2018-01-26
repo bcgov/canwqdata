@@ -17,7 +17,7 @@ safe_make_url <- function(...) {
 }
 
 base_url <- function() {
-  "http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data"
+  "http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/"
 }
 
 get_metadata_json <- function(folder = NULL) {
@@ -55,23 +55,23 @@ parse_ec <- function(x, mime_type) {
 }
 
 basin_folders_ <- function() {
-  ec_site <- xml2::read_html("http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/?lang=en")
+  ec_site <- xml2::read_html(base_url())
   link_tbl <- rvest::html_node(ec_site, "#indexlist")
   link_tbl <- rvest::html_table(link_tbl)
   
   link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
                        c("Name", "Last modified")]
-  link_tbl
+  setNames(link_tbl, tolower(names(link_tbl)))
 }
 
 basin_folders <- memoise::memoise(basin_folders_)
 
 basin_url <- function(basin) {
   basin_links <- basin_folders()
-  basin_links_match <- clean_names(basin_links[["Name"]])
+  basin_links_clean <- clean_names(basin_links[["name"]])
   
   basin_clean <- clean_names(basin)
-  url_folder <- basin_links[["Name"]][basin_clean == basin_links_match]
+  url_folder <- basin_links[["name"]][basin_clean == basin_links_clean]
   if (!length(url_folder)) 
     stop("Unable to find data for ", basin, " basin")
   
