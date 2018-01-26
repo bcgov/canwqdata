@@ -67,7 +67,7 @@ dl_basin_ <- function(basin) {
   resources <- get_resources_df(folder = url)
   resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
   full_url <- safe_make_url(base_url(), url, resource$path)
-  res <- httr::GET(full_url, httr::progress("down"))
+  res <- httr::GET(full_url, if (interactive()) httr::progress("down") else NULL)
   httr::stop_for_status(res)
   content <- httr::content(res, as = "raw", type = resource$format)
   read_canwq_csv(content)
