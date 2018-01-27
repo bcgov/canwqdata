@@ -6,7 +6,8 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "tools/readme/", 
+  message = FALSE
 )
 ```
 
@@ -15,7 +16,7 @@ knitr::opts_chunk$set(
 
 # canwqdata
 
-An R `r emo::ji("package")` to download open water quality data from Environment and Climate Change Canada's [National Long-term Water Quality Monitoring Data](http://donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/).
+An R `r emo::ji("package")`  to download open water quality data from Environment and Climate Change Canada's [National Long-term Water Quality Monitoring Data](http://donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/).
 
 ### Features
 
@@ -43,12 +44,12 @@ sites <- wq_sites()
 
 sites
 ```
- 
+
 Then get some data from a particular station:
 
 `AL07AA0015` is a site in Alberta called *`r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`*
 
-```{r message=FALSE}
+```{r}
 athabasca_falls <- dl_sites("AL07AA0015")
 
 athabasca_falls
@@ -56,7 +57,7 @@ athabasca_falls
 
 We can also get data from more than one station:
 
-```{r message=FALSE}
+```{r}
 dl_sites(c("YT09FC0002", "00BR01AG0008"))
 ```
 
@@ -64,16 +65,16 @@ Or an entire basin:
 
 The basins are in the `PEARSEDA` column of the data.frame returned by `wq_sites()`:
 
-```{r message=FALSE}
+```{r}
 basins <- sort(unique(sites$PEARSEDA))
 basins
 
 fraser <- dl_basin("FRASER-LOWER MAINLAND")
 ```
 
-Lets do some quick summary stats of the fraser dataset:
+Do some quick summary stats of the fraser dataset:
 
-```{r message=FALSE}
+```{r}
 library(dplyr)
 
 fraser %>% 
@@ -83,6 +84,39 @@ fraser %>%
             n_params = length(unique(VARIABLE)), 
             total_samples = n())
 ```
+
+
+We can also look at metadata that helps us understand what is in the different columns.
+
+`wq_params()` returns a list of water quality parameters (variables), and related data - units, methods, codes, etc:
+
+```{r}
+params <- wq_params()
+glimpse(params)
+
+# wq_param_desc shows the column headings ((in all other tables) and what they mean
+wq_param_desc() %>% 
+  glimpse()
+```
+
+Let's look at Total Nitrogen in the Fraser basin:
+
+```{r}
+fraser_n_total <- fraser %>% filter(VARIABLE == "NITROGEN TOTAL")
+```
+
+Now lets do some plotting - plot Total Nitrogen over time at all the sites, 
+(plot it on a log scale so that they all fit)
+
+```{r}
+library(ggplot2)
+
+ggplot(fraser_n_total, aes(x = DATE_TIME_HEURE, y = VALUE_VALEUR)) + 
+  geom_point(size = 0.4, alpha = 0.4, colour = "purple") + 
+  facet_wrap(~ SITE_NO) + 
+  scale_y_log10()
+```
+
 
 It's also possible to download data from an entire province:
 
@@ -113,7 +147,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ### License
 
-    Copyright 2017 Province of British Columbia
+    Copyright 2018 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -127,3 +161,5 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     See the License for the specific language governing permissions and
     limitations under the License.
 
+
+This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.

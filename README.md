@@ -119,7 +119,7 @@ basins
 fraser <- dl_basin("FRASER-LOWER MAINLAND")
 ```
 
-Lets do some quick summary stats of the fraser dataset:
+Do some quick summary stats of the fraser dataset:
 
 ``` r
 library(dplyr)
@@ -147,6 +147,59 @@ fraser %>%
 #> 12 BC08MH0… 2004-03-03 14:40:00 2017-12-06 08:20:00      135         23014
 #> 13 BC08MH0… 2008-09-02 16:25:00 2017-12-06 13:55:00      107         11235
 ```
+
+We can also look at metadata that helps us understand what is in the different columns.
+
+`wq_params()` returns a list of water quality parameters (variables), and related data - units, methods, codes, etc:
+
+``` r
+params <- wq_params()
+glimpse(params)
+#> Observations: 1,155
+#> Variables: 12
+#> $ VMV_CODE         <int> 77, 78, 79, 80, 157, 160, 201, 202, 210, 211,...
+#> $ VARIABLE_CODE    <int> 635, 365, 4541, 414, 864, 1073, 837, 837, 762...
+#> $ VARIABLE         <chr> "NITROGEN TOTAL", "ALKALINITY TOTAL HCO3", "C...
+#> $ VARIABLE_FR      <chr> "AZOTE TOTAL", "ALCALINITÉ TOTALE HCO3", "CHL...
+#> $ VARIABLE_TYPE    <chr> "NITROGEN", "PHYSICAL", "CHLOROPHYLL", "CHLOR...
+#> $ VARIABLE_TYPE_FR <chr> "AZOTE", "PHYSIQUE", "CHLOROPHYLLE", "CHLOROP...
+#> $ UNIT_UNITÉ       <chr> "MG/L", "MG/L", "UG/L", "UG/L", "NTU", "MG/L"...
+#> $ UNIT_NAME        <chr> "MILLIGRAMS PER LITRE", "MILLIGRAMS PER LITRE...
+#> $ UNITÉ_NOM        <chr> "MILLIGRAMMES PAR LITRE", "MILLIGRAMMES PAR L...
+#> $ METHOD_CODE      <int> 23, 30, 35, 41, 188, 189, 8, 9, 15, 16, 617, ...
+#> $ METHOD_TITLE     <chr> "TOTAL NITROGEN MEASUREMENT BY PERSULFATE OXI...
+#> $ MÉTHODE_TITRE    <chr> "AZOTE TOTAL PAR LA MÉTHODE D'OXYDATION AU PE...
+
+# wq_param_desc shows the column headings ((in all other tables) and what they mean
+wq_param_desc() %>% 
+  glimpse()
+#> Observations: 39
+#> Variables: 5
+#> $ COL_TITLE_TITRE    <chr> "COL_DESCRIPTION", "COL_DESCRIPTION_FR", "C...
+#> $ COL_TITLE_FULL     <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER...
+#> $ COL_TITRE_COMPLET  <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DES...
+#> $ COL_DESCRIPTION    <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER...
+#> $ COL_DESCRIPTION_FR <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DES...
+```
+
+Let's look at Total Nitrogen in the Fraser basin:
+
+``` r
+fraser_n_total <- fraser %>% filter(VARIABLE == "NITROGEN TOTAL")
+```
+
+Now lets do some plotting - plot Total Nitrogen over time at all the sites, (plot it on a log scale so that they all fit)
+
+``` r
+library(ggplot2)
+
+ggplot(fraser_n_total, aes(x = DATE_TIME_HEURE, y = VALUE_VALEUR)) + 
+  geom_point(size = 0.4, alpha = 0.4, colour = "purple") + 
+  facet_wrap(~ SITE_NO) + 
+  scale_y_log10()
+```
+
+![](tools/readme/unnamed-chunk-10-1.png)
 
 It's also possible to download data from an entire province:
 
@@ -189,7 +242,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ### License
 
-    Copyright 2017 Province of British Columbia
+    Copyright 2018 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -202,3 +255,5 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.
