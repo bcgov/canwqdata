@@ -50,7 +50,7 @@ sites
 
 Then get some data from a particular station:
 
-`AL07AA0015` is a site in Alberta called Athabasca River above Athabasca Falls
+`AL07AA0015` is a site in Alberta called *Athabasca River above Athabasca Falls*
 
 ``` r
 athabasca_falls <- dl_sites("AL07AA0015")
@@ -98,8 +98,25 @@ dl_sites(c("YT09FC0002", "00BR01AG0008"))
 
 Or an entire basin:
 
+The basins are in the `PEARSEDA` column of the data.frame returned by `wq_sites()`:
+
 ``` r
-fraser <- dl_basin("FRASER")
+basins <- sort(unique(sites$PEARSEDA))
+basins
+#>  [1] "ARCTIC COAST-ISLANDS"      "ASSINIBOINE-RED"          
+#>  [3] "CHURCHILL"                 "COLUMBIA"                 
+#>  [5] "FRASER-LOWER MAINLAND"     "GREAT LAKES"              
+#>  [7] "KEEWATIN-SOUTHERN BAFFIN"  "LOWER MACKENZIE"          
+#>  [9] "LOWER SASKATCHEWAN-NELSON" "MARITIME COASTAL"         
+#> [11] "MISSOURI"                  "NEWFOUNDLAND-LABRADOR"    
+#> [13] "NORTH SASKATCHEWAN"        "NORTH SHORE-GASPÉ"        
+#> [15] "OKANAGAN-SIMILKAMEEN"      "OTTAWA"                   
+#> [17] "PACIFIC COASTAL"           "PEACE-ATHABASCA"          
+#> [19] "SAINT JOHN-ST. CROIX"      "SOUTH SASKATCHEWAN"       
+#> [21] "ST. LAWRENCE"              "WINNIPEG"                 
+#> [23] "YUKON"
+
+fraser <- dl_basin("FRASER-LOWER MAINLAND")
 ```
 
 Lets do some quick summary stats of the fraser dataset:
@@ -157,6 +174,8 @@ glimpse(all_bc_data)
 ```
 
 ### Project Status
+
+Under development, but ready for use and testing.
 
 ### Getting Help or Reporting an Issue
 

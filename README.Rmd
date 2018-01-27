@@ -46,7 +46,7 @@ sites
  
 Then get some data from a particular station:
 
-`AL07AA0015` is a site in Alberta called `r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`
+`AL07AA0015` is a site in Alberta called *`r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`*
 
 ```{r message=FALSE}
 athabasca_falls <- dl_sites("AL07AA0015")
@@ -60,10 +60,15 @@ We can also get data from more than one station:
 dl_sites(c("YT09FC0002", "00BR01AG0008"))
 ```
 
-Or an entire basin: 
+Or an entire basin:
+
+The basins are in the `PEARSEDA` column of the data.frame returned by `wq_sites()`:
 
 ```{r message=FALSE}
-fraser <- dl_basin("FRASER")
+basins <- sort(unique(sites$PEARSEDA))
+basins
+
+fraser <- dl_basin("FRASER-LOWER MAINLAND")
 ```
 
 Lets do some quick summary stats of the fraser dataset:
@@ -91,8 +96,9 @@ all_bc_data <- dl_sites(bc_sites)
 glimpse(all_bc_data)
 ```
 
-
 ### Project Status
+
+Under development, but ready for use and testing.
 
 ### Getting Help or Reporting an Issue
 
