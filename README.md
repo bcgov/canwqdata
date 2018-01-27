@@ -8,7 +8,7 @@ An R 📦 to download open water quality data from Environment and Climate Chang
 
 ### Features
 
-This package is designed to get Canaddian Water Quality Monitoring data into R quickly and easily. You can get data from a single monitoring station, multiple stations, or from an entire basin.
+This package is designed to get Canaddan Water Quality Monitoring data into R quickly and easily. You can get data from a single monitoring station, multiple stations, or from an entire basin.
 
 ### Installation
 
