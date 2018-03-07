@@ -1,9 +1,12 @@
 Package: canwqdata
 Version: 0.1.0
 Title: Get Canadian Long-Term Water Quality Monitoring Data
-Description: All data is freely available under the Open Government License - Canada 
-from <http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/>.
-Authors@R: c(person("Andy", "Teucher", email = "andy.teucher@gov.bc.ca", role = c("aut", "cre")), 
+Description: Download Canadian Long Term Water Quality Monitoring Data into R 
+    from the Environment and Climate Change Canada Datamart. All data is freely 
+    available under the Open Government License - Canada from 
+    <http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/>.
+Authors@R: c(person("Andy", "Teucher", email = "andy.teucher@gov.bc.ca", 
+                    role = c("aut", "cre")), 
              person("Province of British Columbia", role = "cph"))
 License: Apache License (== 2.0) | file LICENSE
 Encoding: UTF-8
