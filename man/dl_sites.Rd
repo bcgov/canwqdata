@@ -18,6 +18,6 @@ Download water quality data for a site or multiple sites
 }
 \examples{
 \dontrun{
-dl_site(c("NW10OB0003", "NB01AJ0008"))
+dl_sites(c("NW10OB0003", "NB01AJ0008"))
 }
 }

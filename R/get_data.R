@@ -93,7 +93,7 @@ dl_basin <- memoise::memoise(dl_basin_)
 #'
 #' @examples
 #' \dontrun{
-#' dl_site(c("NW10OB0003", "NB01AJ0008"))
+#' dl_sites(c("NW10OB0003", "NB01AJ0008"))
 #' }
 dl_sites <- function(sites) {
   sites_df <- wq_sites()
