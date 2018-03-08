@@ -153,7 +153,7 @@ read_canwq_csv <- function(x) {
                            VALUE_VALEUR = readr::col_double(),
                            SDL_LDE = readr::col_double(),
                            MDL_LDM = readr::col_double(),
-                           VMV_CODE = readr::col_integer(),
+                           VMV_CODE = readr::col_character(),
                            UNIT_UNITE = readr::col_character(),
                            VARIABLE = readr::col_character(),
                            VARIABLE_FR = readr::col_character(),
