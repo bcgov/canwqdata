@@ -25,7 +25,8 @@ wq_sites_ <- function() {
 wq_sites <- memoise::memoise(wq_sites_)
 
 wq_params_ <- function() {
-  get_metadata_file("Water-Qual-Eau-VariableInfo")
+  get_metadata_file("Water-Qual-Eau-VariableInfo", 
+                    cols = readr::cols(.default = readr::col_character()))
 }
 
 #' Get a table of water quality parameters

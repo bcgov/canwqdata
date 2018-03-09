@@ -56,7 +56,7 @@ get_resources_df <- function(folder = NULL) {
 #' @noRd
 #'
 #' @return a data frame of metadata
-get_metadata_file <- function(name) {
+get_metadata_file <- function(name, cols = NULL) {
   resources <- get_resources_df()
   resource <- resources[resources$name == name, ]
   if (nrow(resource) == 0) 
@@ -68,7 +68,7 @@ get_metadata_file <- function(name) {
   res <- httr::GET(url)
   httr::stop_for_status(res)
   parse_ec(httr::content(res, as = "raw", type = resource$format), 
-           resource$format)
+           resource$format, cols)
 }
 
 #' Parse EC metadata
@@ -80,10 +80,11 @@ get_metadata_file <- function(name) {
 #' @param mime_type 
 #'
 #' @noRd
-parse_ec <- function(x, mime_type) {
+parse_ec <- function(x, mime_type, cols) {
   switch(mime_type, 
          csv = suppressMessages(
-           readr::read_csv(x, locale = readr::locale(encoding = "latin1")))
+           readr::read_csv(x, locale = readr::locale(encoding = "latin1"), 
+                           col_types = cols))
            )
 }
 
