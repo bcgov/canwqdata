@@ -35,7 +35,7 @@ wq_params_ <- function() {
 #' @export
 wq_params <- memoise::memoise(wq_params_)
 
-wq_param_desc_ <- function() {
+wq_data_desc_ <- function() {
   get_metadata_file("Water-Qual-Eau-TableDescriptions")
 }
 
@@ -43,7 +43,7 @@ wq_param_desc_ <- function() {
 #'
 #' @return a data.frame of parameter descriptions
 #' @export
-wq_param_desc <- memoise::memoise(wq_param_desc_)
+wq_data_desc <- memoise::memoise(wq_data_desc_)
 
 #' Get a list of basins for a Province or Territory.
 #'
@@ -54,16 +54,16 @@ wq_param_desc <- memoise::memoise(wq_param_desc_)
 #'
 #' @examples
 #' \dontrun{
-#'   pt_basins(c("BC", "AB"))
+#'   wq_basins_pt(c("BC", "AB"))
 #' }
-pt_basins <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
+wq_basins_pt <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", 
                                     "QC", "SK", "US", "YT")) {
   prov_terr <- match.arg(prov_terr, several.ok = TRUE)
   sites_df <- wq_sites()
   unique(sites_df$PEARSEDA[sites_df$PROV_TERR %in% prov_terr])
 }
 
-dl_basin_ <- function(basin) {
+wq_basin_data_ <- function(basin) {
   url <- basin_url(basin)
   resources <- get_resources_df(folder = url)
   resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
@@ -77,30 +77,30 @@ dl_basin_ <- function(basin) {
 #' Download water quality data for a basin
 #'
 #' @param basin the name of a basin. 
-#' An easy way to get a list of basins is to use the \code{\link{pt_basins}}
+#' An easy way to get a list of basins is to use the [wq_basins_pt()]
 #' function
 #'
 #' @return a data.frame of all the water quality monitoring data from that basin.
 #' @export
-dl_basin <- memoise::memoise(dl_basin_)
+wq_basin_data <- memoise::memoise(wq_basin_data_)
 
 #' Download water quality data for a site or multiple sites
 #'
-#' @param sites site numbers. See \code{\link{wq_sites}}.
+#' @param sites site numbers. See [wq_sites]().
 #'
 #' @return a data.frame of water quality data for the sites. 
-#' See \code{\link{wq_param_desc}}
+#' See [wq_data_desc()]
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' dl_sites(c("NW10OB0003", "NB01AJ0008"))
+#' wq_site_data(c("NW10OB0003", "NB01AJ0008"))
 #' }
-dl_sites <- function(sites) {
+wq_site_data <- function(sites) {
   sites_df <- wq_sites()
   if (!all(sites %in% sites_df$SITE_NO)) stop("Not a valid site ID. See wq_sites()")
   basins <- unique(sites_df$PEARSEDA[sites_df$SITE_NO %in% sites])
-  basin_data_list <- lapply(basins, dl_basin)
+  basin_data_list <- lapply(basins, wq_basin_data)
   basin_data <- dplyr::bind_rows(basin_data_list)
   basin_data[basin_data$SITE_NO %in% sites, , drop = FALSE]
 }
