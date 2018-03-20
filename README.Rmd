@@ -50,7 +50,7 @@ Then get some data from a particular station:
 `AL07AA0015` is a site in Alberta called *`r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`*
 
 ```{r}
-athabasca_falls <- dl_sites("AL07AA0015")
+athabasca_falls <- wq_site_data("AL07AA0015")
 
 athabasca_falls
 ```
@@ -58,7 +58,7 @@ athabasca_falls
 We can also get data from more than one station:
 
 ```{r}
-dl_sites(c("YT09FC0002", "00BR01AG0008"))
+wq_site_data(c("YT09FC0002", "SA05JM0014"))
 ```
 
 Or an entire basin:
@@ -69,7 +69,7 @@ The basins are in the `PEARSEDA` column of the data.frame returned by `wq_sites(
 basins <- sort(unique(sites$PEARSEDA))
 basins
 
-fraser <- dl_basin("FRASER-LOWER MAINLAND")
+fraser <- wq_basin_data("FRASER-LOWER MAINLAND")
 ```
 
 Do some quick summary stats of the fraser dataset:
@@ -94,8 +94,8 @@ We can also look at metadata that helps us understand what is in the different c
 params <- wq_params()
 glimpse(params)
 
-# wq_param_desc shows the column headings ((in all other tables) and what they mean
-wq_param_desc() %>% 
+# wq_param_desc shows the column headings (in all other tables) and what they mean
+wq_data_desc() %>% 
   glimpse()
 ```
 
@@ -125,7 +125,7 @@ bc_sites <- sites %>%
   filter(PROV_TERR == "BC") %>% 
   pull(SITE_NO)
 
-all_bc_data <- dl_sites(bc_sites)
+all_bc_data <- wq_site_data(bc_sites)
 
 glimpse(all_bc_data)
 ```
