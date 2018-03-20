@@ -81,11 +81,12 @@ get_metadata_file <- function(name, cols = NULL) {
 #'
 #' @noRd
 parse_ec <- function(x, mime_type, cols) {
-  switch(mime_type, 
+  ret <- switch(mime_type, 
          csv = suppressMessages(
            readr::read_csv(x, locale = readr::locale(encoding = "latin1"), 
                            col_types = cols))
            )
+  stats::setNames(ret, toupper(names(ret)))
 }
 
 #' Find the links to the folders that contain the csvs for the basins.
