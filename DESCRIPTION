@@ -9,6 +9,7 @@ Description: Download Canadian Long Term Water Quality Monitoring Data into R
     available under the Open Government License - Canada from 
     <http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/>.
 License: Apache License (== 2.0) | file LICENSE
+URL: https://github.com/bcgov/canwqdata
 Imports: 
     dplyr (>= 0.7),
     httr (>= 1.3),
