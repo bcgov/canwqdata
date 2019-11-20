@@ -6,6 +6,8 @@
 Status](https://travis-ci.org/bcgov/canwqdata.svg?branch=master)](https://travis-ci.org/bcgov/canwqdata)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![R build
 status](https://github.com/bcgov/canwqdata/workflows/R-CMD-check/badge.svg)](https://github.com/bcgov/canwqdata/actions?workflow=R-CMD-check)
+[![Codecov test
+coverage](https://codecov.io/gh/bcgov/canwqdata/branch/master/graph/badge.svg)](https://codecov.io/gh/bcgov/canwqdata?branch=master)
 <!-- badges: end -->
 
 # canwqdata
