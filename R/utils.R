@@ -58,7 +58,8 @@ get_resources_df <- function(folder = NULL) {
 #' @return a data frame of metadata
 get_metadata_file <- function(name, cols = NULL) {
   resources <- get_resources_df()
-  resource <- resources[resources$name == name, ]
+  resource <- unique(resources[resources$name == name & resources$resource_type == "internal", 
+                               c("path", "format")])
   if (nrow(resource) == 0) 
     stop("No resources found matching that name", call. = FALSE)
   if (nrow(resource) > 1) 
