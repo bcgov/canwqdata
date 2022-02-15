@@ -24,7 +24,7 @@ safe_make_url <- function(...) {
 }
 
 base_url <- function() {
-  "http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/"
+  "https://data-donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/"
 }
 
 #' Get the 'datapackage.json file from a given folder and parse it 
