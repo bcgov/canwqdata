@@ -30,16 +30,16 @@ test_that("base_url works and is alive", {
 
 test_that("basin_folders works", {
   skip_on_cran()
-  out <- basin_folders()
-  expect_identical(names(out), c("name", "last modified"))
+  out <- basin_csvs()
+  expect_identical(names(out), c("path", "profile", "name", "format", "mediatype", "encoding", "resource_type", "schema"))
 })
 
 test_that("basin_url works", {
   skip_on_cran()
-  fraser <- basin_url("fraser")
-  expect_is(fraser, "character")
-  expect_length(fraser, 1)
-  expect_true(grepl("fraser", fraser))
+  fraser <- basin_csv_url("fraser")
+  expect_is(fraser, "data.frame")
+  expect_equal(nrow(fraser), 1)
+  expect_true(grepl("fraser", fraser$path))
 })
 
 test_data <- "testdata.csv"
@@ -60,6 +60,6 @@ test_that("read_canwq_csv works with raw vectors", {
   testdata_raw <- charToRaw(readChar(test_data, 1000, useBytes = TRUE))
   testdata_raw_accent <- charToRaw(readChar(test_data_accent, 1000, useBytes = TRUE))
   
-  expect_identical(no_accent, read_canwq_csv(testdata_raw))
-  expect_identical(accent, read_canwq_csv(testdata_raw_accent))
+  expect_equal(no_accent, read_canwq_csv(testdata_raw))
+  expect_equal(accent, read_canwq_csv(testdata_raw_accent))
 })
