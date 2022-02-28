@@ -64,13 +64,12 @@ wq_basins_pt <- function(prov_terr = c("AB", "BC", "MB", "NB", "NL", "NS", "NT",
 }
 
 wq_basin_data_ <- function(basin) {
-  url <- basin_url(basin)
-  resources <- get_resources_df(folder = url)
-  resource <- resources[grepl("^Water-Qual.+present", resources[["name"]]), ]
-  full_url <- safe_make_url(base_url(), url, resource$path)
+  basin_resource <- basin_csv_url(basin)
+  full_url <- safe_make_url(base_url(), basin_resource$path)
   res <- httr::GET(full_url, if (interactive()) httr::progress("down") else NULL)
   httr::stop_for_status(res)
-  content <- httr::content(res, as = "raw", type = resource$format)
+  content <- httr::content(res, as = "raw", type = basin_resource$format)
+  
   read_canwq_csv(content)
 }
 

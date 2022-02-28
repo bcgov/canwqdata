@@ -1,5 +1,6 @@
 
 <!-- badges: start -->
+
 [![img](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 [![Travis-CI Build
 Status](https://travis-ci.org/bcgov/canwqdata.svg?branch=master)](https://travis-ci.org/bcgov/canwqdata)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -42,19 +43,19 @@ available sites and associated metadata:
 sites <- wq_sites()
 
 sites
-#> # A tibble: 339 x 16
-#>    SITE_NO SITE_NAME SITE_NOM_FR SITE_TYPE SITE_DESC SITE_DESC_FR LATITUDE
-#>    <chr>   <chr>     <chr>       <chr>     <chr>     <chr>           <dbl>
-#>  1 72      BEAUHARN… CANAL DE B… RIVER/RI… <NA>      <NA>             45.2
-#>  2 75      ST.LAWRE… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.9
-#>  3 78      ST.LAWRE… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.4
-#>  4 2330001 ETCHEMIN… RIVIÈRE ET… RIVER/RI… <NA>      <NA>             46.8
-#>  5 2340033 CHAUDIÈR… RIVIÈRE CH… RIVER/RI… <NA>      <NA>             46.7
-#>  6 2400004 BÉCANCOU… RIVIÈRE BÉ… RIVER/RI… <NA>      <NA>             46.4
-#>  7 3020073 MAGOG RI… RIVIÈRE MA… RIVER/RI… <NA>      <NA>             45.3
-#>  8 3020333 COATICOO… RIVIÈRE CO… RIVER/RI… <NA>      <NA>             45.3
-#>  9 3040010 RICHELIE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.4
-#> 10 3040012 RICHELIE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.1
+#> # A tibble: 339 × 16
+#>    SITE_NO SITE_NAME       SITE_NOM_FR SITE_TYPE SITE_DESC SITE_DESC_FR LATITUDE
+#>    <chr>   <chr>           <chr>       <chr>     <chr>     <chr>           <dbl>
+#>  1 72      BEAUHARNOIS CA… CANAL DE B… RIVER/RI… <NA>      <NA>             45.2
+#>  2 75      ST.LAWRENCE RI… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.9
+#>  3 78      ST.LAWRENCE RI… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.4
+#>  4 2330001 ETCHEMIN RIVER… RIVIÈRE ET… RIVER/RI… <NA>      <NA>             46.8
+#>  5 2340033 CHAUDIÈRE RIVE… RIVIÈRE CH… RIVER/RI… <NA>      <NA>             46.7
+#>  6 2400004 BÉCANCOUR RIVE… RIVIÈRE BÉ… RIVER/RI… <NA>      <NA>             46.4
+#>  7 3020073 MAGOG RIVER AT… RIVIÈRE MA… RIVER/RI… <NA>      <NA>             45.3
+#>  8 3020333 COATICOOK RIVE… RIVIÈRE CO… RIVER/RI… <NA>      <NA>             45.3
+#>  9 3040010 RICHELIEU RIVE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.4
+#> 10 3040012 RICHELIEU RIVE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.1
 #> # … with 329 more rows, and 9 more variables: LONGITUDE <dbl>, DATUM <chr>,
 #> #   PROV_TERR <chr>, PEARSEDA <chr>, PEARSEDA_FR <chr>, OCEANDA <chr>,
 #> #   OCEANDA_FR <chr>, DATA_URL <chr>, DATA_URL_FR <chr>
@@ -69,19 +70,19 @@ Athabasca Falls*
 athabasca_falls <- wq_site_data("AL07AA0015")
 
 athabasca_falls
-#> # A tibble: 10,538 x 11
-#>    SITE_NO DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
-#>    <chr>   <dttm>              <chr>                <dbl>   <dbl>   <dbl>
-#>  1 AL07AA… 2000-01-11 13:05:00 <NA>               93.2         NA      NA
-#>  2 AL07AA… 2000-01-11 13:05:00 <                   0.02        NA      NA
-#>  3 AL07AA… 2000-01-11 13:05:00 <                   0.005       NA      NA
-#>  4 AL07AA… 2000-01-11 13:05:00 <NA>                0           NA      NA
-#>  5 AL07AA… 2000-01-11 13:05:00 <                   0.0001      NA      NA
-#>  6 AL07AA… 2000-01-11 13:05:00 <NA>                0.065       NA      NA
-#>  7 AL07AA… 2000-01-11 13:05:00 <                   0.5         NA      NA
-#>  8 AL07AA… 2000-01-11 13:05:00 <NA>              114.          NA      NA
-#>  9 AL07AA… 2000-01-11 13:05:00 <                   0.002       NA      NA
-#> 10 AL07AA… 2000-01-11 13:05:00 <                   0.001       NA      NA
+#> # A tibble: 10,538 × 11
+#>    SITE_NO    DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
+#>    <chr>      <dttm>              <chr>                <dbl>   <dbl>   <dbl>
+#>  1 AL07AA0015 2000-01-11 13:05:00 <NA>               93.2         NA      NA
+#>  2 AL07AA0015 2000-01-11 13:05:00 <                   0.02        NA      NA
+#>  3 AL07AA0015 2000-01-11 13:05:00 <                   0.005       NA      NA
+#>  4 AL07AA0015 2000-01-11 13:05:00 <NA>                0           NA      NA
+#>  5 AL07AA0015 2000-01-11 13:05:00 <                   0.0001      NA      NA
+#>  6 AL07AA0015 2000-01-11 13:05:00 <NA>                0.065       NA      NA
+#>  7 AL07AA0015 2000-01-11 13:05:00 <                   0.5         NA      NA
+#>  8 AL07AA0015 2000-01-11 13:05:00 <NA>              114.          NA      NA
+#>  9 AL07AA0015 2000-01-11 13:05:00 <                   0.002       NA      NA
+#> 10 AL07AA0015 2000-01-11 13:05:00 <                   0.001       NA      NA
 #> # … with 10,528 more rows, and 5 more variables: VMV_CODE <chr>,
 #> #   UNIT_UNITE <chr>, VARIABLE <chr>, VARIABLE_FR <chr>, STATUS_STATUT <chr>
 ```
@@ -90,19 +91,19 @@ We can also get data from more than one station:
 
 ``` r
 wq_site_data(c("YT09FC0002", "SA05JM0014"))
-#> # A tibble: 23,932 x 11
-#>    SITE_NO DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
-#>    <chr>   <dttm>              <chr>                <dbl>   <dbl>   <dbl>
-#>  1 SA05JM… 2000-03-07 12:45:00 <NA>                0           NA      NA
-#>  2 SA05JM… 2000-03-07 12:45:00 <NA>              253           NA      NA
-#>  3 SA05JM… 2000-03-07 12:45:00 <NA>                0.047       NA      NA
-#>  4 SA05JM… 2000-03-07 12:45:00 <NA>                0.607       NA      NA
-#>  5 SA05JM… 2000-03-07 12:45:00 <NA>                0.079       NA      NA
-#>  6 SA05JM… 2000-03-07 12:45:00 <NA>                0.001       NA      NA
-#>  7 SA05JM… 2000-03-07 12:45:00 <NA>                0.039       NA      NA
-#>  8 SA05JM… 2000-03-07 12:45:00 <NA>                0.0569      NA      NA
-#>  9 SA05JM… 2000-03-07 12:45:00 <                   0.5         NA      NA
-#> 10 SA05JM… 2000-03-07 12:45:00 <                   0.05        NA      NA
+#> # A tibble: 23,932 × 11
+#>    SITE_NO    DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
+#>    <chr>      <dttm>              <chr>                <dbl>   <dbl>   <dbl>
+#>  1 SA05JM0014 2000-03-07 12:45:00 <NA>                0           NA      NA
+#>  2 SA05JM0014 2000-03-07 12:45:00 <NA>              253           NA      NA
+#>  3 SA05JM0014 2000-03-07 12:45:00 <NA>                0.047       NA      NA
+#>  4 SA05JM0014 2000-03-07 12:45:00 <NA>                0.607       NA      NA
+#>  5 SA05JM0014 2000-03-07 12:45:00 <NA>                0.079       NA      NA
+#>  6 SA05JM0014 2000-03-07 12:45:00 <NA>                0.001       NA      NA
+#>  7 SA05JM0014 2000-03-07 12:45:00 <NA>                0.039       NA      NA
+#>  8 SA05JM0014 2000-03-07 12:45:00 <NA>                0.0569      NA      NA
+#>  9 SA05JM0014 2000-03-07 12:45:00 <                   0.5         NA      NA
+#> 10 SA05JM0014 2000-03-07 12:45:00 <                   0.05        NA      NA
 #> # … with 23,922 more rows, and 5 more variables: VMV_CODE <chr>,
 #> #   UNIT_UNITE <chr>, VARIABLE <chr>, VARIABLE_FR <chr>, STATUS_STATUT <chr>
 ```
@@ -142,7 +143,7 @@ fraser %>%
             latest_date = max(DATE_TIME_HEURE), 
             n_params = length(unique(VARIABLE)), 
             total_samples = n())
-#> # A tibble: 15 x 5
+#> # A tibble: 15 × 5
 #>    SITE_NO    first_date          latest_date         n_params total_samples
 #>    <chr>      <dttm>              <dttm>                 <int>         <int>
 #>  1 BC08KA0007 2000-01-12 07:45:00 2019-09-12 08:58:00      108         24941
@@ -171,31 +172,31 @@ and related data - units, methods, codes, etc:
 ``` r
 params <- wq_params()
 glimpse(params)
-#> Observations: 1,964
-#> Variables: 12
-#> $ VMV_CODE                <chr> "77", "78", "79", "80", "157", "160", "201", …
-#> $ NATIONAL_VARIABLE_CODE  <chr> "635", "365", "4541", "414", "864", "1073", "…
-#> $ VARIABLE_COMMON_NAME    <chr> "Nitrogen total", "Alkalinity total HCO3", "C…
-#> $ VARIABLE_COMMON_NAME_FR <chr> "Azote total", "Alcalinité totale HCO3", "Chl…
-#> $ VARIABLE_TYPE           <chr> "Nitrogen", "Physical", "Chlorophyll", "Chlor…
-#> $ VARIABLE_TYPE_FR        <chr> "Azote", "Physique", "Chlorophylle", "Chlorop…
-#> $ MEASUREMENT_UNIT        <chr> "mg/L", "mg/L", "µg/L", "µg/L", "NTU", "mg/L"…
-#> $ DESCRIPTION             <chr> "milligram per liter", "milligram per liter",…
-#> $ DESCRIPTION_FR          <chr> "milligramme par litre", "milligramme par lit…
-#> $ NATIONAL_METHOD_CODE    <chr> "23", "30", "35", "41", "188", "189", "8", "9…
-#> $ METHOD_TITLE            <chr> "Total nitrogen measurement by persulfate oxi…
-#> $ METHOD_TITLE_FR         <chr> "Azote total par la méthode d'oxydation au pe…
+#> Rows: 1,964
+#> Columns: 12
+#> $ VMV_CODE                <chr> "77", "78", "79", "80", "157", "160", "201", "…
+#> $ NATIONAL_VARIABLE_CODE  <chr> "635", "365", "4541", "414", "864", "1073", "8…
+#> $ VARIABLE_COMMON_NAME    <chr> "Nitrogen total", "Alkalinity total HCO3", "Ch…
+#> $ VARIABLE_COMMON_NAME_FR <chr> "Azote total", "Alcalinité totale HCO3", "Chlo…
+#> $ VARIABLE_TYPE           <chr> "Nitrogen", "Physical", "Chlorophyll", "Chloro…
+#> $ VARIABLE_TYPE_FR        <chr> "Azote", "Physique", "Chlorophylle", "Chloroph…
+#> $ MEASUREMENT_UNIT        <chr> "mg/L", "mg/L", "µg/L", "µg/L", "NTU", "mg/L",…
+#> $ DESCRIPTION             <chr> "milligram per liter", "milligram per liter", …
+#> $ DESCRIPTION_FR          <chr> "milligramme par litre", "milligramme par litr…
+#> $ NATIONAL_METHOD_CODE    <chr> "23", "30", "35", "41", "188", "189", "8", "9"…
+#> $ METHOD_TITLE            <chr> "Total nitrogen measurement by persulfate oxid…
+#> $ METHOD_TITLE_FR         <chr> "Azote total par la méthode d'oxydation au per…
 
 # wq_param_desc shows the column headings (in all other tables) and what they mean
 wq_data_desc() %>% 
   glimpse()
-#> Observations: 39
-#> Variables: 5
-#> $ COL_TITLE_TITRE    <chr> "COL_DESCRIPTION", "COL_DESCRIPTION_FR", "COL_TITL…
-#> $ COL_TITLE_FULL     <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRI…
-#> $ COL_TITRE_COMPLET  <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTIO…
-#> $ COL_DESCRIPTION    <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRI…
-#> $ COL_DESCRIPTION_FR <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTIO…
+#> Rows: 39
+#> Columns: 5
+#> $ COL_TITLE_TITRE    <chr> "COL_DESCRIPTION", "COL_DESCRIPTION_FR", "COL_TITLE…
+#> $ COL_TITLE_FULL     <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRIP…
+#> $ COL_TITRE_COMPLET  <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTION…
+#> $ COL_DESCRIPTION    <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRIP…
+#> $ COL_DESCRIPTION_FR <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTION…
 ```
 
 Let’s look at Total Nitrogen in the Fraser basin:
@@ -228,19 +229,19 @@ bc_sites <- sites %>%
 all_bc_data <- wq_site_data(bc_sites)
 
 glimpse(all_bc_data)
-#> Observations: 925,542
-#> Variables: 11
-#> $ SITE_NO         <chr> "BC07FB0005", "BC07FB0005", "BC07FB0005", "BC07FB0005…
-#> $ DATE_TIME_HEURE <dttm> 2017-01-25 09:35:00, 2017-01-25 09:35:00, 2017-01-25…
-#> $ FLAG_MARQUEUR   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "<", NA, …
-#> $ VALUE_VALEUR    <dbl> 163.000, 4.100, 31.900, 0.060, 0.061, 0.130, 0.150, 1…
-#> $ SDL_LDE         <dbl> 1.000, 0.500, 0.500, 0.001, 0.001, 0.010, 0.010, 0.05…
-#> $ MDL_LDM         <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-#> $ VMV_CODE        <chr> "9134", "107941", "107905", "107965", "107929", "1079…
-#> $ UNIT_UNITE      <chr> "MG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L…
-#> $ VARIABLE        <chr> "ALKALINITY TOTAL CACO3", "ALUMINUM DISSOLVED", "ALUM…
-#> $ VARIABLE_FR     <chr> "ALCALINITÉ TOTALE CACO3", "ALUMINIUM DISSOUS", "ALUM…
-#> $ STATUS_STATUT   <chr> "P", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P"…
+#> Rows: 925,542
+#> Columns: 11
+#> $ SITE_NO         <chr> "BC07FB0005", "BC07FB0005", "BC07FB0005", "BC07FB0005"…
+#> $ DATE_TIME_HEURE <dttm> 2017-01-25 09:35:00, 2017-01-25 09:35:00, 2017-01-25 …
+#> $ FLAG_MARQUEUR   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "<", NA, N…
+#> $ VALUE_VALEUR    <dbl> 163.000, 4.100, 31.900, 0.060, 0.061, 0.130, 0.150, 10…
+#> $ SDL_LDE         <dbl> 1.000, 0.500, 0.500, 0.001, 0.001, 0.010, 0.010, 0.050…
+#> $ MDL_LDM         <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+#> $ VMV_CODE        <chr> "9134", "107941", "107905", "107965", "107929", "10794…
+#> $ UNIT_UNITE      <chr> "MG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L"…
+#> $ VARIABLE        <chr> "ALKALINITY TOTAL CACO3", "ALUMINUM DISSOLVED", "ALUMI…
+#> $ VARIABLE_FR     <chr> "ALCALINITÉ TOTALE CACO3", "ALUMINIUM DISSOUS", "ALUMI…
+#> $ STATUS_STATUT   <chr> "P", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P",…
 ```
 
 ### Project Status
@@ -264,13 +265,13 @@ to abide by its terms.
 ### License
 
     Copyright 2018 Province of British Columbia
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at 
-    
+
        http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

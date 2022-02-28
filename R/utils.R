@@ -24,7 +24,7 @@ safe_make_url <- function(...) {
 }
 
 base_url <- function() {
-  "http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/"
+  "https://data-donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/"
 }
 
 #' Get the 'datapackage.json file from a given folder and parse it 
@@ -57,8 +57,10 @@ get_resources_df <- function(folder = NULL) {
 #'
 #' @return a data frame of metadata
 get_metadata_file <- function(name, cols = NULL) {
+  if (missing(name)) stop("You must provide a name of the file")
   resources <- get_resources_df()
-  resource <- resources[resources$name == name, ]
+  resource <- unique(resources[resources$name == name & resources$resource_type == "internal", 
+                               c("path", "format")])
   if (nrow(resource) == 0) 
     stop("No resources found matching that name", call. = FALSE)
   if (nrow(resource) > 1) 
@@ -82,26 +84,26 @@ get_metadata_file <- function(name, cols = NULL) {
 #' @noRd
 parse_ec <- function(x, mime_type, cols) {
   ret <- switch(mime_type, 
-         csv = suppressMessages(
-           readr::read_csv(x, locale = readr::locale(encoding = "latin1"), 
-                           col_types = cols))
-           )
+                csv = suppressMessages(
+                  readr::read_csv(x, locale = readr::locale(encoding = "latin1"), 
+                                  col_types = cols))
+  )
   stats::setNames(ret, toupper(names(ret)))
 }
 
 #' Find the links to the folders that contain the csvs for the basins.
 #' @noRd
-basin_folders_ <- function() {
-  ec_site <- xml2::read_html(base_url())
-  link_tbl <- rvest::html_node(ec_site, "#indexlist")
-  link_tbl <- rvest::html_table(link_tbl)
+basin_csvs_ <- function() {
+  resources <- get_resources_df()
   
-  link_tbl <- link_tbl[link_tbl$Size == "-" & link_tbl$Name != "Parent Directory", 
-                       c("Name", "Last modified")]
-  stats::setNames(link_tbl, tolower(names(link_tbl)))
+  basin_csvs <- resources[resources$profile == "tabular-data-resource" & 
+                            resources$format == "csv" &
+                            grepl("^(?!http).+long-term-water-quality-monitoring-data(-canada-s-north)?/Water-Qual-Eau", resources$path, perl = TRUE),  , drop = FALSE]
+  
+  basin_csvs[names(basin_csvs$schema) == "fields", , drop = FALSE]
 }
 
-basin_folders <- memoise::memoise(basin_folders_)
+basin_csvs <- memoise::memoise(basin_csvs_)
 
 #' Given a basin name (ideally from wq_sites()$PEARSEDA) get the url 
 #' for the folder that contains the data
@@ -109,28 +111,28 @@ basin_folders <- memoise::memoise(basin_folders_)
 #' @param basin 
 #'
 #' @noRd
-basin_url <- function(basin) {
-  basin_links <- basin_folders()
-  basin_links_clean <- clean_names(basin_links[["name"]])
+basin_csv_url <- function(basin) {
+  basin_csvs <- basin_csvs()
+  basin_csvs_clean <- clean_names(basin_csvs[["path"]])
   
   basin_clean <- clean_names(basin)
-  url_folder <- basin_links[["name"]][basin_clean == basin_links_clean]
-  if (!length(url_folder)) 
+  basin_resource <- basin_csvs[basin_clean == basin_csvs_clean, , drop = FALSE]
+  if (!nrow(basin_resource)) 
     stop("Unable to find data for ", basin, " basin")
   
-  url_folder
+  basin_resource
 }
 
 clean_names <- function(x) {
   x <- tolower(x)
   x <- gsub("[^a-z]+", "-", x)
   x <- gsub("(-and-)?(river)?(basin)?(long-term.+data)?(canada-s-north)?(lower-mainland)?(island)?", "", x)
-  x <- gsub("-+", "", x)
+  x <- gsub("waterqualeau.+csv", "", x)
+  x <- gsub("-+(water-qual.+csv$)?", "", x)
   x
 }
 
 compact <- function(x) Filter(Negate(is.null), x)
-
 
 #' Read a csv from the website. 
 #'
@@ -165,3 +167,19 @@ read_canwq_csv <- function(x) {
                          skip = 1L)
   ret
 }
+
+# NOT CURRENTLY USED: Could be, but need some work to clean up names... the parsing of the first row in 
+# read_canwq_csv works well enough for now
+# col_types_from_eccc_schema <- function(schema) {
+#   out <- lapply(schema, \(x) {
+#     switch(x$type, 
+#            string = readr::col_character(),
+#            integer = readr::col_integer(), 
+#            number = readr::col_double()
+#     )
+#   })
+#   
+#   names(out) <- vapply(schema, `[[`, "name", FUN.VALUE = character(1))
+#   out[grepl("DATE_TIME", names(out))][[1]] <- readr::col_datetime(format = "%Y-%m-%d %H:%M")
+#   out
+# }
