@@ -1,3 +1,7 @@
+# canwqdata 0.3.0
+
+* Reworked package interface to changed ECCC data catalogue (#7)
+
 # canwqdata 0.2.0
 
 * Renamed all functions to begin with `wq_()` for consistency and memorability.

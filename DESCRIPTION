@@ -1,6 +1,6 @@
 Package: canwqdata
 Title: Get Canadian Long-Term Water Quality Monitoring Data
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(person("Andy", "Teucher", email = "andy.teucher@gov.bc.ca", 
                     role = c("aut", "cre")), 
              person("Province of British Columbia", role = "cph"))
