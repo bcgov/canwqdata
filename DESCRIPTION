@@ -16,7 +16,9 @@ Imports:
     dplyr (>= 0.7),
     httr (>= 1.3),
     readr (>= 1.1),
-    memoise (>= 1.1)
+    memoise (>= 1.1),
+    vroom,
+    stringi
 Suggests: 
     knitr,
     rmarkdown,
