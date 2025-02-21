@@ -25,7 +25,7 @@ An R `r emo::ji("package")`  to download open water quality data from Environmen
 
 ### Features
 
-This package is designed to get Canadian Water Quality Monitoring data into R quickly and easily. You can get data from a single monitoring station, multiple stations, or from an entire basin.
+This package is designed to get Canadian Water Quality Monitoring data into R quickly and easily. You can get data from a single monitoring station, multiple stations, or from an entire basin. Note that current version of this package can only retrieve data from BC, not from other provinces.
 
 ### Installation
 
@@ -39,10 +39,11 @@ First load the package:
 
 ```{r}
 library(canwqdata)
+library(tidyverse)
 ```
 
 
-The first thing you will probably want to do is get a list of the available sites and associated metadata:
+The first thing you will probably want to do is get a list of the available BC sites and associated metadata:
 
 ```{r}
 sites <- wq_sites()
@@ -52,18 +53,18 @@ sites
 
 Then get some data from a particular station:
 
-`AL07AA0015` is a site in Alberta called *`r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "AL07AA0015"]))`*
+`BC08EF0001` is a site in BC called *`r tools::toTitleCase(tolower(sites$SITE_NAME[sites$SITE_NO == "BC08EF0001"]))`*
 
 ```{r}
-athabasca_falls <- wq_site_data("AL07AA0015")
+skeena_river <- wq_site_data("BC08EF0001")
 
-athabasca_falls
+skeena_river
 ```
 
 We can also get data from more than one station:
 
 ```{r}
-wq_site_data(c("YT09FC0002", "SA05JM0014"))
+wq_site_data(c("BC08NF0001", "BC08NM0160"))
 ```
 
 Or an entire basin:
@@ -123,11 +124,10 @@ ggplot(fraser_n_total, aes(x = DATE_TIME_HEURE, y = VALUE_VALEUR)) +
 ```
 
 
-It's also possible to download data from an entire province:
+It's also possible to download data from an entire BC:
 
 ```{r}
 bc_sites <- sites %>% 
-  filter(PROV_TERR == "BC") %>% 
   pull(SITE_NO)
 
 all_bc_data <- wq_site_data(bc_sites)
@@ -152,7 +152,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ### License
 
-    Copyright 2018 Province of British Columbia
+    Copyright 2025 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
