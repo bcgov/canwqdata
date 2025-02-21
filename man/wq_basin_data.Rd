@@ -2,18 +2,16 @@
 % Please edit documentation in R/get_data.R
 \name{wq_basin_data}
 \alias{wq_basin_data}
-\title{Download water quality data for a basin}
+\title{Download BC water quality data for a basin}
 \usage{
 wq_basin_data(basin)
 }
 \arguments{
-\item{basin}{the name of a basin.
-An easy way to get a list of basins is to use the \code{\link[=wq_basins_pt]{wq_basins_pt()}}
-function}
+\item{basin}{the name of a basin.}
 }
 \value{
 a data.frame of all the water quality monitoring data from that basin.
 }
 \description{
-Download water quality data for a basin
+Download BC water quality data for a basin
 }
