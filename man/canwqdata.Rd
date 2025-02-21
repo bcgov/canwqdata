@@ -2,11 +2,28 @@
 % Please edit documentation in R/canwqdata-package.r
 \docType{package}
 \name{canwqdata}
-\alias{canwqdata}
 \alias{canwqdata-package}
+\alias{canwqdata}
 \title{Get Canadian Long-Term Water Quality Monitoring Data}
 \description{
 All data is freely available under the
 \href{http://open.canada.ca/en/open-government-licence-canada}{Open Government License Canada}
 from \href{http://data.ec.gc.ca/data/substances/monitor/national-long-term-water-quality-monitoring-data/}{here}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/bcgov/canwqdata}
+}
+
+}
+\author{
+\strong{Maintainer}: Andy Teucher \email{andy.teucher@gov.bc.ca}
+
+Other contributors:
+\itemize{
+  \item Zhuoyan Song \email{zhuoyan.song@gov.bc.ca} [contributor]
+  \item Province of British Columbia [copyright holder]
+}
+
 }
