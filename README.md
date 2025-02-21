@@ -20,7 +20,9 @@ Data](http://donnees.ec.gc.ca/data/substances/monitor/national-long-term-water-q
 
 This package is designed to get Canadian Water Quality Monitoring data
 into R quickly and easily. You can get data from a single monitoring
-station, multiple stations, or from an entire basin.
+station, multiple stations, or from an entire basin. Note that current
+version of this package can only retrieve data from BC, not from other
+provinces.
 
 ### Installation
 
@@ -34,78 +36,82 @@ First load the package:
 
 ``` r
 library(canwqdata)
+library(tidyverse)
 ```
 
 The first thing you will probably want to do is get a list of the
-available sites and associated metadata:
+available BC sites and associated metadata:
 
 ``` r
 sites <- wq_sites()
 
 sites
-#> # A tibble: 339 × 16
-#>    SITE_NO SITE_NAME       SITE_NOM_FR SITE_TYPE SITE_DESC SITE_DESC_FR LATITUDE
-#>    <chr>   <chr>           <chr>       <chr>     <chr>     <chr>           <dbl>
-#>  1 72      BEAUHARNOIS CA… CANAL DE B… RIVER/RI… <NA>      <NA>             45.2
-#>  2 75      ST.LAWRENCE RI… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.9
-#>  3 78      ST.LAWRENCE RI… FLEUVE SAI… RIVER/RI… <NA>      <NA>             45.4
-#>  4 2330001 ETCHEMIN RIVER… RIVIÈRE ET… RIVER/RI… <NA>      <NA>             46.8
-#>  5 2340033 CHAUDIÈRE RIVE… RIVIÈRE CH… RIVER/RI… <NA>      <NA>             46.7
-#>  6 2400004 BÉCANCOUR RIVE… RIVIÈRE BÉ… RIVER/RI… <NA>      <NA>             46.4
-#>  7 3020073 MAGOG RIVER AT… RIVIÈRE MA… RIVER/RI… <NA>      <NA>             45.3
-#>  8 3020333 COATICOOK RIVE… RIVIÈRE CO… RIVER/RI… <NA>      <NA>             45.3
-#>  9 3040010 RICHELIEU RIVE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.4
-#> 10 3040012 RICHELIEU RIVE… RIVIÈRE RI… RIVER/RI… <NA>      <NA>             45.1
-#> # … with 329 more rows, and 9 more variables: LONGITUDE <dbl>, DATUM <chr>,
-#> #   PROV_TERR <chr>, PEARSEDA <chr>, PEARSEDA_FR <chr>, OCEANDA <chr>,
-#> #   OCEANDA_FR <chr>, DATA_URL <chr>, DATA_URL_FR <chr>
+#> # A tibble: 50 × 19
+#>    SITE_NO    SITE_NAME    SITE_NOM_FR SITE_TYPE SITE_DESC SITE_DESC_FR LATITUDE
+#>    <chr>      <chr>        <chr>       <chr>     <chr>     <chr>           <dbl>
+#>  1 AK08DC0001 SALMON RIVE… RIVIÈRE SA… RIVER OR… SITE IS … EN AMONT DE…     55.9
+#>  2 BC07FB0005 MURRAY RIVE… RIVIÈRE MU… RIVER OR… SITE IS … <NA>             55.6
+#>  3 BC07FD0005 PEACE RIVER… RIVIÈRE PE… RIVER OR… AT 203 R… AU PONT DE …     56.1
+#>  4 BC08CG0001 ISKUT RIVER… RIVIÈRE IS… RIVER OR… SITE IS … EN AVAL DE …     56.7
+#>  5 BC08EE0009 BULKLEY RIV… BULKLEY RI… RIVER OR… SAMPLED … <NA>             54.8
+#>  6 BC08EF0001 SKEENA RIVE… RIVIÈRE SK… RIVER OR… AT USK F… AU NIVEAU D…     54.6
+#>  7 BC08FC0001 DEAN RIVER … RIVIÈRE DE… RIVER OR… SAMPLED … <NA>             52.5
+#>  8 BC08GA0010 CHEAKAMUS R… RIVIÈRE CH… RIVER OR… SAMPLED … PRÉLÈVEMENT…     50.1
+#>  9 BC08HA0018 COWICHAN RI… RIVIÈRE CO… RIVER OR… SAMPLED … 1 KM EN AVA…     48.8
+#> 10 BC08HB0018 TSOLUM RIVE… RIVIÈRE TS… RIVER OR… RIVER AC… L'ACCÈS À L…     49.8
+#> # ℹ 40 more rows
+#> # ℹ 12 more variables: LONGITUDE <dbl>, DATUM <chr>, PROV_TERR <chr>,
+#> #   PROV_TERR_FR <chr>, PEARSEDA <chr>, PEARSEDA_FR <chr>, OCEANDA <chr>,
+#> #   OCEANDA_FR <chr>, DATA_URL <chr>, DATA_URL_FR <chr>, OPEN_DATA_URL <chr>,
+#> #   csv_path <chr>
 ```
 
 Then get some data from a particular station:
 
-`AL07AA0015` is a site in Alberta called *Athabasca River above
-Athabasca Falls*
+`BC08EF0001` is a site in BC called *Skeena River at Usk*
 
 ``` r
-athabasca_falls <- wq_site_data("AL07AA0015")
+skeena_river <- wq_site_data("BC08EF0001")
 
-athabasca_falls
-#> # A tibble: 10,538 × 11
+skeena_river
+#> # A tibble: 24,901 × 12
 #>    SITE_NO    DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
 #>    <chr>      <dttm>              <chr>                <dbl>   <dbl>   <dbl>
-#>  1 AL07AA0015 2000-01-11 13:05:00 <NA>               93.2         NA      NA
-#>  2 AL07AA0015 2000-01-11 13:05:00 <                   0.02        NA      NA
-#>  3 AL07AA0015 2000-01-11 13:05:00 <                   0.005       NA      NA
-#>  4 AL07AA0015 2000-01-11 13:05:00 <NA>                0           NA      NA
-#>  5 AL07AA0015 2000-01-11 13:05:00 <                   0.0001      NA      NA
-#>  6 AL07AA0015 2000-01-11 13:05:00 <NA>                0.065       NA      NA
-#>  7 AL07AA0015 2000-01-11 13:05:00 <                   0.5         NA      NA
-#>  8 AL07AA0015 2000-01-11 13:05:00 <NA>              114.          NA      NA
-#>  9 AL07AA0015 2000-01-11 13:05:00 <                   0.002       NA      NA
-#> 10 AL07AA0015 2000-01-11 13:05:00 <                   0.001       NA      NA
-#> # … with 10,528 more rows, and 5 more variables: VMV_CODE <chr>,
-#> #   UNIT_UNITE <chr>, VARIABLE <chr>, VARIABLE_FR <chr>, STATUS_STATUT <chr>
+#>  1 BC08EF0001 2000-01-10 10:00:00 <NA>               51.6     0.5         NA
+#>  2 BC08EF0001 2000-01-10 10:00:00 <NA>                0.059   0.002       NA
+#>  3 BC08EF0001 2000-01-10 10:00:00 <NA>                0.0238  0.0002      NA
+#>  4 BC08EF0001 2000-01-10 10:00:00 <                   0.05    0.05        NA
+#>  5 BC08EF0001 2000-01-10 10:00:00 <                   0.05    0.05        NA
+#>  6 BC08EF0001 2000-01-10 10:00:00 <                   0.0001  0.0001      NA
+#>  7 BC08EF0001 2000-01-10 10:00:00 <NA>               18.2     0.1         NA
+#>  8 BC08EF0001 2000-01-10 10:00:00 <NA>               11.6     0.5         NA
+#>  9 BC08EF0001 2000-01-10 10:00:00 <NA>                1.9     0.5         NA
+#> 10 BC08EF0001 2000-01-10 10:00:00 <NA>                0.7     0.1         NA
+#> # ℹ 24,891 more rows
+#> # ℹ 6 more variables: VMV_CODE <chr>, UNIT_UNITE <chr>, VARIABLE <chr>,
+#> #   VARIABLE_FR <chr>, STATUS_STATUT <chr>, SAMPLE_ID_ECHANTILLON <chr>
 ```
 
 We can also get data from more than one station:
 
 ``` r
-wq_site_data(c("YT09FC0002", "SA05JM0014"))
-#> # A tibble: 23,932 × 11
+wq_site_data(c("BC08NF0001", "BC08NM0160"))
+#> # A tibble: 28,532 × 12
 #>    SITE_NO    DATE_TIME_HEURE     FLAG_MARQUEUR VALUE_VALEUR SDL_LDE MDL_LDM
 #>    <chr>      <dttm>              <chr>                <dbl>   <dbl>   <dbl>
-#>  1 SA05JM0014 2000-03-07 12:45:00 <NA>                0           NA      NA
-#>  2 SA05JM0014 2000-03-07 12:45:00 <NA>              253           NA      NA
-#>  3 SA05JM0014 2000-03-07 12:45:00 <NA>                0.047       NA      NA
-#>  4 SA05JM0014 2000-03-07 12:45:00 <NA>                0.607       NA      NA
-#>  5 SA05JM0014 2000-03-07 12:45:00 <NA>                0.079       NA      NA
-#>  6 SA05JM0014 2000-03-07 12:45:00 <NA>                0.001       NA      NA
-#>  7 SA05JM0014 2000-03-07 12:45:00 <NA>                0.039       NA      NA
-#>  8 SA05JM0014 2000-03-07 12:45:00 <NA>                0.0569      NA      NA
-#>  9 SA05JM0014 2000-03-07 12:45:00 <                   0.5         NA      NA
-#> 10 SA05JM0014 2000-03-07 12:45:00 <                   0.05        NA      NA
-#> # … with 23,922 more rows, and 5 more variables: VMV_CODE <chr>,
-#> #   UNIT_UNITE <chr>, VARIABLE <chr>, VARIABLE_FR <chr>, STATUS_STATUT <chr>
+#>  1 BC08NF0001 2000-01-04 09:45:00 <NA>              168       0.5         NA
+#>  2 BC08NF0001 2000-01-04 09:45:00 <NA>                0.009   0.002       NA
+#>  3 BC08NF0001 2000-01-04 09:45:00 <NA>              104       0.01        NA
+#>  4 BC08NF0001 2000-01-04 09:45:00 <NA>                0.105   0.0002      NA
+#>  5 BC08NF0001 2000-01-04 09:45:00 <                   0.002   0.002       NA
+#>  6 BC08NF0001 2000-01-04 09:45:00 <                   0.05    0.05        NA
+#>  7 BC08NF0001 2000-01-04 09:45:00 <NA>                2.66    0.07        NA
+#>  8 BC08NF0001 2000-01-04 09:45:00 <                   0.05    0.05        NA
+#>  9 BC08NF0001 2000-01-04 09:45:00 <                   0.005   0.005       NA
+#> 10 BC08NF0001 2000-01-04 09:45:00 <                   0.0001  0.0001      NA
+#> # ℹ 28,522 more rows
+#> # ℹ 6 more variables: VMV_CODE <chr>, UNIT_UNITE <chr>, VARIABLE <chr>,
+#> #   VARIABLE_FR <chr>, STATUS_STATUT <chr>, SAMPLE_ID_ECHANTILLON <chr>
 ```
 
 Or an entire basin:
@@ -116,18 +122,8 @@ The basins are in the `PEARSEDA` column of the data.frame returned by
 ``` r
 basins <- sort(unique(sites$PEARSEDA))
 basins
-#>  [1] "ARCTIC COAST-ISLANDS"      "ASSINIBOINE-RED"          
-#>  [3] "CHURCHILL"                 "COLUMBIA"                 
-#>  [5] "FRASER-LOWER MAINLAND"     "GREAT LAKES"              
-#>  [7] "KEEWATIN-SOUTHERN BAFFIN"  "LOWER MACKENZIE"          
-#>  [9] "LOWER SASKATCHEWAN-NELSON" "MARITIME COASTAL"         
-#> [11] "MISSOURI"                  "NEWFOUNDLAND-LABRADOR"    
-#> [13] "NORTH SASKATCHEWAN"        "NORTH SHORE-GASPÉ"        
-#> [15] "OKANAGAN-SIMILKAMEEN"      "OTTAWA"                   
-#> [17] "PACIFIC COASTAL"           "PEACE-ATHABASCA"          
-#> [19] "SAINT JOHN-ST. CROIX"      "SOUTH SASKATCHEWAN"       
-#> [21] "ST. LAWRENCE"              "WINNIPEG"                 
-#> [23] "YUKON"
+#> [1] "COLUMBIA"              "FRASER-LOWER MAINLAND" "LOWER MACKENZIE"      
+#> [4] "OKANAGAN-SIMILKAMEEN"  "PACIFIC COASTAL"       "PEACE-ATHABASCA"
 
 fraser <- wq_basin_data("FRASER-LOWER MAINLAND")
 ```
@@ -143,24 +139,25 @@ fraser %>%
             latest_date = max(DATE_TIME_HEURE), 
             n_params = length(unique(VARIABLE)), 
             total_samples = n())
-#> # A tibble: 15 × 5
+#> # A tibble: 16 × 5
 #>    SITE_NO    first_date          latest_date         n_params total_samples
 #>    <chr>      <dttm>              <dttm>                 <int>         <int>
-#>  1 BC08KA0007 2000-01-12 07:45:00 2019-09-12 08:58:00      108         24941
-#>  2 BC08KE0010 2000-01-05 00:00:00 2019-09-16 10:00:00       76         23477
-#>  3 BC08KH0012 2006-05-11 13:07:00 2019-09-29 08:30:00      140         19511
-#>  4 BC08KH0013 2014-06-16 12:45:00 2019-09-23 09:45:00      107         10375
-#>  5 BC08KH0014 2014-09-23 14:00:00 2019-09-09 06:55:00      110          9397
-#>  6 BC08LC0005 2011-02-24 09:45:00 2019-09-18 11:20:00       69         11866
-#>  7 BC08LE0004 2000-01-04 10:00:00 2019-10-02 11:30:00      112         23469
-#>  8 BC08LF0001 2000-01-05 12:00:00 2014-12-15 10:20:00       89         18410
-#>  9 BC08LG0001 2003-06-24 10:45:00 2019-09-18 14:30:00       71         10366
-#> 10 BC08MB0007 2004-11-15 12:00:00 2019-10-01 12:21:00      105         21297
-#> 11 BC08MC0001 2000-04-18 16:30:00 2019-09-30 08:37:00      107         21775
-#> 12 BC08MF0001 2000-01-04 14:10:00 2019-09-12 12:00:00      129         21475
-#> 13 BC08MH0027 2000-01-07 12:16:00 2019-09-24 12:02:00      115         34775
-#> 14 BC08MH0269 2004-03-03 14:40:00 2019-09-24 13:45:00      137         25932
-#> 15 BC08MH0453 2008-09-02 16:25:00 2019-09-30 12:00:00      107         13389
+#>  1 BC08KA0007 2000-01-12 07:45:00 2024-10-09 16:02:00      134         25777
+#>  2 BC08KE0010 2000-01-05 12:00:00 2025-01-14 11:25:00      133         32315
+#>  3 BC08KH0012 2006-05-11 13:07:00 2025-01-05 11:05:00      178         30305
+#>  4 BC08KH0013 2014-06-16 12:45:00 2024-03-12 11:30:00      151         15433
+#>  5 BC08KH0014 2014-09-23 14:00:00 2025-01-14 08:00:00      157         15894
+#>  6 BC08LC0005 2011-02-24 09:45:00 2025-01-09 10:45:00       98         20326
+#>  7 BC08LE0004 2000-01-04 10:00:00 2025-01-07 11:11:00      113         32714
+#>  8 BC08LF0001 2000-01-05 12:00:00 2014-12-15 10:20:00       99         19290
+#>  9 BC08LF0078 2015-01-07 11:00:00 2025-01-14 12:05:00      132         14088
+#> 10 BC08LG0001 2003-06-24 10:45:00 2025-01-14 11:50:00      140         14959
+#> 11 BC08MB0007 2004-11-15 12:00:00 2023-12-19 06:00:00      171         27311
+#> 12 BC08MC0001 2000-04-18 16:30:00 2024-10-07 16:20:00      155         28860
+#> 13 BC08MF0001 2000-01-04 14:10:00 2024-12-18 12:10:00      162         26546
+#> 14 BC08MH0027 2000-01-07 12:16:00 2025-01-07 10:25:00      173         47157
+#> 15 BC08MH0269 2004-03-03 14:40:00 2025-01-07 11:50:00      168         34913
+#> 16 BC08MH0453 2008-09-02 16:25:00 2025-01-09 10:45:00      159         18570
 ```
 
 We can also look at metadata that helps us understand what is in the
@@ -172,31 +169,31 @@ and related data - units, methods, codes, etc:
 ``` r
 params <- wq_params()
 glimpse(params)
-#> Rows: 1,964
+#> Rows: 2,621
 #> Columns: 12
-#> $ VMV_CODE                <chr> "77", "78", "79", "80", "157", "160", "201", "…
-#> $ NATIONAL_VARIABLE_CODE  <chr> "635", "365", "4541", "414", "864", "1073", "8…
-#> $ VARIABLE_COMMON_NAME    <chr> "Nitrogen total", "Alkalinity total HCO3", "Ch…
-#> $ VARIABLE_COMMON_NAME_FR <chr> "Azote total", "Alcalinité totale HCO3", "Chlo…
-#> $ VARIABLE_TYPE           <chr> "Nitrogen", "Physical", "Chlorophyll", "Chloro…
-#> $ VARIABLE_TYPE_FR        <chr> "Azote", "Physique", "Chlorophylle", "Chloroph…
-#> $ MEASUREMENT_UNIT        <chr> "mg/L", "mg/L", "µg/L", "µg/L", "NTU", "mg/L",…
-#> $ DESCRIPTION             <chr> "milligram per liter", "milligram per liter", …
-#> $ DESCRIPTION_FR          <chr> "milligramme par litre", "milligramme par litr…
-#> $ NATIONAL_METHOD_CODE    <chr> "23", "30", "35", "41", "188", "189", "8", "9"…
-#> $ METHOD_TITLE            <chr> "Total nitrogen measurement by persulfate oxid…
-#> $ METHOD_TITLE_FR         <chr> "Azote total par la méthode d'oxydation au per…
+#> $ VMV_CODE         <dbl> 100081, 100082, 100083, 100084, 100085, 100086, 10008…
+#> $ VARIABLE_CODE    <dbl> 371, 387, 392, 410, 454, 461, 468, 517, 517, 575, 589…
+#> $ VARIABLE         <chr> "ALUMINUM EXTRACTABLE", "BARIUM EXTRACTABLE", "BERYLL…
+#> $ VARIABLE_FR      <chr> "ALUMINIUM EXTRACTIBLE", "BARYUM EXTRACTIBLE", "BÉRYL…
+#> $ VARIABLE_TYPE    <chr> "METAL", "METAL", "METAL", "METAL", "METAL", "METAL",…
+#> $ VARIABLE_TYPE_FR <chr> "MÉTAUX", "MÉTAUX", "MÉTAUX", "MÉTAUX", "MÉTAUX", "MÉ…
+#> $ UNIT_UNITÉ       <chr> "MG/L", "MG/L", "MG/L", "MG/L", "MG/L", "MG/L", "MG/L…
+#> $ UNIT_NAME        <chr> "MILLIGRAM PER LITER", "MILLIGRAM PER LITER", "MILLIG…
+#> $ UNITÉ_NOM        <chr> "MILLIGRAMME PAR LITRE", "MILLIGRAMME PAR LITRE", "MI…
+#> $ METHOD_CODE      <chr> "2628", "2628", "2628", "2628", "2628", "2628", "2628…
+#> $ METHOD_TITLE     <chr> "EXTRACTABLE METALS BY INDUCTIVELY COUPLED ARGON PLAS…
+#> $ MÉTHODE_TITRE    <chr> "MÉTAUX EXTRACTIBLES PAR ICAP", "MÉTAUX EXTRACTIBLES …
 
 # wq_param_desc shows the column headings (in all other tables) and what they mean
 wq_data_desc() %>% 
   glimpse()
-#> Rows: 39
+#> Rows: 41
 #> Columns: 5
 #> $ COL_TITLE_TITRE    <chr> "COL_DESCRIPTION", "COL_DESCRIPTION_FR", "COL_TITLE…
 #> $ COL_TITLE_FULL     <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRIP…
-#> $ COL_TITRE_COMPLET  <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTION…
+#> $ COL_TITRE_COMPLET  <chr> "DESCRIPTION DE L'EN-T\xcaTE DE COLONNE", "DESCRIPT…
 #> $ COL_DESCRIPTION    <chr> "COLUMN HEADER DESCRIPTION", "COLUMN HEADER DESCRIP…
-#> $ COL_DESCRIPTION_FR <chr> "DESCRIPTION DE L'EN-TÊTE DE COLONNE", "DESCRIPTION…
+#> $ COL_DESCRIPTION_FR <chr> "DESCRIPTION DE L'EN-T\xcaTE DE COLONNE", "DESCRIPT…
 ```
 
 Let’s look at Total Nitrogen in the Fraser basin:
@@ -219,29 +216,29 @@ ggplot(fraser_n_total, aes(x = DATE_TIME_HEURE, y = VALUE_VALEUR)) +
 
 ![](tools/readme/unnamed-chunk-10-1.png)<!-- -->
 
-It’s also possible to download data from an entire province:
+It’s also possible to download data from an entire BC:
 
 ``` r
 bc_sites <- sites %>% 
-  filter(PROV_TERR == "BC") %>% 
   pull(SITE_NO)
 
 all_bc_data <- wq_site_data(bc_sites)
 
 glimpse(all_bc_data)
-#> Rows: 925,542
-#> Columns: 11
-#> $ SITE_NO         <chr> "BC07FB0005", "BC07FB0005", "BC07FB0005", "BC07FB0005"…
-#> $ DATE_TIME_HEURE <dttm> 2017-01-25 09:35:00, 2017-01-25 09:35:00, 2017-01-25 …
-#> $ FLAG_MARQUEUR   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "<", NA, N…
-#> $ VALUE_VALEUR    <dbl> 163.000, 4.100, 31.900, 0.060, 0.061, 0.130, 0.150, 10…
-#> $ SDL_LDE         <dbl> 1.000, 0.500, 0.500, 0.001, 0.001, 0.010, 0.010, 0.050…
-#> $ MDL_LDM         <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-#> $ VMV_CODE        <chr> "9134", "107941", "107905", "107965", "107929", "10794…
-#> $ UNIT_UNITE      <chr> "MG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L", "UG/L"…
-#> $ VARIABLE        <chr> "ALKALINITY TOTAL CACO3", "ALUMINUM DISSOLVED", "ALUMI…
-#> $ VARIABLE_FR     <chr> "ALCALINITÉ TOTALE CACO3", "ALUMINIUM DISSOUS", "ALUMI…
-#> $ STATUS_STATUT   <chr> "P", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P",…
+#> Rows: 1,269,792
+#> Columns: 12
+#> $ SITE_NO               <chr> "AK08DC0001", "AK08DC0001", "AK08DC0001", "AK08D…
+#> $ DATE_TIME_HEURE       <dttm> 2000-01-02 14:30:00, 2000-01-02 14:30:00, 2000-…
+#> $ FLAG_MARQUEUR         <chr> NA, NA, NA, NA, NA, "<", "<", NA, NA, "<", NA, N…
+#> $ VALUE_VALEUR          <dbl> 47.2000, 0.0340, 0.0004, 37.8000, 0.0370, 0.0020…
+#> $ SDL_LDE               <dbl> 4e-01, 2e-03, 1e-04, 1e-02, 2e-04, 2e-03, 5e-02,…
+#> $ MDL_LDM               <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ VMV_CODE              <chr> "1131", "100216", "100250", "100493", "100217", …
+#> $ UNIT_UNITE            <chr> "MG/L", "MG/L", "MG/L", "µG/L", "MG/L", "µG/L", …
+#> $ VARIABLE              <chr> "ALKALINITY TOTAL CACO3", "ALUMINUM TOTAL", "ARS…
+#> $ VARIABLE_FR           <chr> "ALCALINIT TOTALE CACO3", "ALUMINIUM TOTAL", "AR…
+#> $ STATUS_STATUT         <chr> "P", "P", "P", "P", "P", "P", "P", "P", "P", "P"…
+#> $ SAMPLE_ID_ECHANTILLON <chr> "00PY000078", "00PY000078", "00PY000078", "00PY0…
 ```
 
 ### Project Status
@@ -264,7 +261,7 @@ to abide by its terms.
 
 ### License
 
-    Copyright 2018 Province of British Columbia
+    Copyright 2025 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
