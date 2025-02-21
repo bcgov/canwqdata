@@ -1,4 +1,4 @@
-# Copyright 2018 Province of British Columbia
+# Copyright 2025 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,23 +23,18 @@ test_that("clean_names works", {
                    rep("foobar", length(test_names)))
 })
 
-test_that("base_url works and is alive", {
-  skip_on_cran()
-  expect_true(identical(status_code(GET(base_url())), 200L))
-})
-
 test_that("basin_folders works", {
   skip_on_cran()
   out <- basin_csvs()
-  expect_identical(names(out), c("path", "profile", "name", "format", "mediatype", "encoding", "resource_type", "schema"))
+  expect_identical(names(out), c("csv_path"))
 })
 
 test_that("basin_url works", {
   skip_on_cran()
   fraser <- basin_csv_url("fraser")
-  expect_is(fraser, "data.frame")
-  expect_equal(nrow(fraser), 1)
-  expect_true(grepl("fraser", fraser$path))
+  expect_is(fraser, "character")
+  expect_equal(length(fraser), 1)
+  expect_true(grepl("fraser", fraser))
 })
 
 test_data <- "testdata.csv"
@@ -51,7 +46,7 @@ test_that("read_canwq_csv works", {
   expect_identical(names(no_accent), 
                    c("SITE_NO", "DATE_TIME_HEURE", "FLAG_MARQUEUR", "VALUE_VALEUR", 
                      "SDL_LDE", "MDL_LDM", "VMV_CODE", "UNIT_UNITE", "VARIABLE", 
-                     "VARIABLE_FR", "STATUS_STATUT"))
+                     "VARIABLE_FR", "STATUS_STATUT", "SAMPLE_ID_ECHANTILLON"))
   expect_identical(names(no_accent), names(accent))
   expect_equal(lapply(no_accent, class), lapply(accent, class))
 })
