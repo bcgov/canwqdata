@@ -82,7 +82,8 @@ read_canwq_csv <- function(x) {
                          col_names = nms, 
                          skip = 1L))
   
-  ret$UNIT_UNITE <- stringr::str_replace_all(ret$UNIT_UNITE, "Â", "")
+  ret$UNIT_UNITE <- stringi::stri_trans_general(ret$UNIT_UNITE, "latin-ascii")
+  ret$UNIT_UNITE <- stringr::str_replace_all(ret$UNIT_UNITE, "A", "")
   # Zhuoyan found some issues relating to parsing  
   prblm_data <- suppressMessages(suppressWarnings((readr::problems(vroom::vroom(x)))))
   # Following codes are to address the poorly formatted English and French names, but still not able to split English and French names into separate columns.
@@ -97,10 +98,13 @@ read_canwq_csv <- function(x) {
                                                                                "[^[:alnum:]]", "")
   }
   #Remove "Ã\u0089" and "Ã\u0088" from English and French names
-  ret$VARIABLE <- stringr::str_replace_all(ret$VARIABLE, "Ã\u0089", "")
-  ret$VARIABLE <- stringr::str_replace_all(ret$VARIABLE, "Ã\u0088", "")
-  ret$VARIABLE_FR <- stringr::str_replace_all(ret$VARIABLE_FR, "Ã\u0089", "")
-  ret$VARIABLE_FR <- stringr::str_replace_all(ret$VARIABLE_FR, "Ã\u0088", "")
+  ret$VARIABLE <- stringi::stri_trans_general(ret$VARIABLE, "latin-ascii")
+  ret$VARIABLE_FR <- stringi::stri_trans_general(ret$VARIABLE_FR, "latin-ascii")
+  
+  ret$VARIABLE <- stringr::str_replace_all(ret$VARIABLE, "A\u0089", "")
+  ret$VARIABLE <- stringr::str_replace_all(ret$VARIABLE, "A\u0088", "")
+  ret$VARIABLE_FR <- stringr::str_replace_all(ret$VARIABLE_FR, "A\u0089", "")
+  ret$VARIABLE_FR <- stringr::str_replace_all(ret$VARIABLE_FR, "A\u0088", "")
   
   ret
 }
