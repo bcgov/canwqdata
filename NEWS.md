@@ -1,3 +1,7 @@
+# canwqdata 0.4.0
+
+* Reworked package interface to changed ECCC data catalogue
+
 # canwqdata 0.3.0
 
 * Reworked package interface to changed ECCC data catalogue (#7)
