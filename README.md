@@ -1,7 +1,7 @@
 
 <!-- badges: start -->
 
-[![img](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+[![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 [![Travis-CI Build
 Status](https://travis-ci.org/bcgov/canwqdata.svg?branch=master)](https://travis-ci.org/bcgov/canwqdata)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![R build
@@ -37,6 +37,8 @@ First load the package:
 ``` r
 library(canwqdata)
 library(tidyverse)
+#> Warning: package 'purrr' was built under R version 4.4.3
+#> Warning: package 'lubridate' was built under R version 4.4.3
 ```
 
 The first thing you will probably want to do is get a list of the
@@ -143,20 +145,20 @@ fraser %>%
 #>    SITE_NO    first_date          latest_date         n_params total_samples
 #>    <chr>      <dttm>              <dttm>                 <int>         <int>
 #>  1 BC08KA0007 2000-01-12 07:45:00 2024-10-09 16:02:00      134         25777
-#>  2 BC08KE0010 2000-01-05 12:00:00 2025-01-14 11:25:00      133         32315
-#>  3 BC08KH0012 2006-05-11 13:07:00 2025-01-05 11:05:00      178         30305
+#>  2 BC08KE0010 2000-01-05 12:00:00 2025-01-29 10:25:00      133         32339
+#>  3 BC08KH0012 2006-05-11 13:07:00 2025-01-19 10:30:00      178         30411
 #>  4 BC08KH0013 2014-06-16 12:45:00 2024-03-12 11:30:00      151         15433
 #>  5 BC08KH0014 2014-09-23 14:00:00 2025-01-14 08:00:00      157         15894
-#>  6 BC08LC0005 2011-02-24 09:45:00 2025-01-09 10:45:00       98         20326
-#>  7 BC08LE0004 2000-01-04 10:00:00 2025-01-07 11:11:00      113         32714
+#>  6 BC08LC0005 2011-02-24 09:45:00 2025-01-23 11:00:00       98         20392
+#>  7 BC08LE0004 2000-01-04 10:00:00 2025-02-21 11:34:00      113         32773
 #>  8 BC08LF0001 2000-01-05 12:00:00 2014-12-15 10:20:00       99         19290
-#>  9 BC08LF0078 2015-01-07 11:00:00 2025-01-14 12:05:00      132         14088
-#> 10 BC08LG0001 2003-06-24 10:45:00 2025-01-14 11:50:00      140         14959
+#>  9 BC08LF0078 2015-01-07 11:00:00 2025-01-22 12:25:00      132         14115
+#> 10 BC08LG0001 2003-06-24 10:45:00 2025-01-14 11:50:00      140         14960
 #> 11 BC08MB0007 2004-11-15 12:00:00 2023-12-19 06:00:00      171         27311
 #> 12 BC08MC0001 2000-04-18 16:30:00 2024-10-07 16:20:00      155         28860
-#> 13 BC08MF0001 2000-01-04 14:10:00 2024-12-18 12:10:00      162         26546
-#> 14 BC08MH0027 2000-01-07 12:16:00 2025-01-07 10:25:00      173         47157
-#> 15 BC08MH0269 2004-03-03 14:40:00 2025-01-07 11:50:00      168         34913
+#> 13 BC08MF0001 2000-01-04 14:10:00 2025-01-23 11:42:00      162         26569
+#> 14 BC08MH0027 2000-01-07 12:16:00 2025-01-23 10:09:00      173         47265
+#> 15 BC08MH0269 2004-03-03 14:40:00 2025-01-23 14:05:00      168         35013
 #> 16 BC08MH0453 2008-09-02 16:25:00 2025-01-09 10:45:00      159         18570
 ```
 
@@ -225,7 +227,7 @@ bc_sites <- sites %>%
 all_bc_data <- wq_site_data(bc_sites)
 
 glimpse(all_bc_data)
-#> Rows: 1,269,792
+#> Rows: 1,271,399
 #> Columns: 12
 #> $ SITE_NO               <chr> "AK08DC0001", "AK08DC0001", "AK08DC0001", "AK08D…
 #> $ DATE_TIME_HEURE       <dttm> 2000-01-02 14:30:00, 2000-01-02 14:30:00, 2000-…
